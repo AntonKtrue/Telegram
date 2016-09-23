@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="forms.FormReg">
+  <grid id="27dc6" binding="rootPanel" custom-create="true" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="655" height="620"/>
+    </constraints>
+    <properties>
+      <preferredSize width="330" height="58"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="1ee90" binding="namePanel" custom-create="true" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag top="42" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <maximumSize width="242" height="46"/>
+          <minimumSize width="242" height="46"/>
+          <opaque value="false"/>
+          <preferredSize width="242" height="46"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="424fc" class="javax.swing.JTextField" binding="tfName" custom-create="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="5" right="0" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <caretColor color="-1"/>
+              <font name="Open Sans Light" size="40"/>
+              <foreground color="-1"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <minimumSize width="242" height="44"/>
+              <opaque value="false"/>
+              <preferredSize width="242" height="44"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="b7a90" binding="surnamePanel" custom-create="true" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag top="20" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <maximumSize width="242" height="46"/>
+          <minimumSize width="242" height="46"/>
+          <opaque value="false"/>
+          <preferredSize width="242" height="46"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="1ac3" class="javax.swing.JTextField" binding="tfSurname" custom-create="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="5" right="0" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <caretColor color="-1"/>
+              <font name="Open Sans Light" size="40"/>
+              <foreground color="-1"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <minimumSize width="242" height="44"/>
+              <opaque value="false"/>
+              <preferredSize width="242" height="44"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="b8841" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="48" left="0" bottom="0" right="0" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font name="Open Sans Light" size="14"/>
+          <foreground color="-1"/>
+          <text value="&lt;html&gt;&lt;center&gt;Введите ваше имя и фамилию&lt;br&gt;для завершения регистрации&lt;/center&gt;&lt;/html&gt;"/>
+        </properties>
+      </component>
+      <grid id="61c49" binding="logoPanel" custom-create="true" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="34" left="0" bottom="0" right="0" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <minimumSize width="124" height="98"/>
+          <opaque value="false"/>
+          <preferredSize width="124" height="98"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <component id="18c6" class="javax.swing.JButton" binding="btDone" custom-create="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="50" left="0" bottom="5" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <font name="Open Sans Light" size="24"/>
+          <foreground color="-1"/>
+          <maximumSize width="330" height="58"/>
+          <minimumSize width="330" height="58"/>
+          <opaque value="false"/>
+          <preferredSize width="330" height="58"/>
+          <text value="ЗАВЕРШИТЬ"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

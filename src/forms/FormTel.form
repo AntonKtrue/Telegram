@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="forms.FormTel">
+  <grid id="27dc6" binding="rootPanel" custom-create="true" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="754" height="722"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="e09c0" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag top="67" left="0" bottom="0" right="0" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font name="Open Sans Light" size="18" style="0"/>
+          <foreground color="-1"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <text value="&lt;html&gt;&lt;center&gt;Введите код страны и номер&lt;br&gt;вашего мобильного телефона&lt;/center&gt;&lt;/html&gt;"/>
+        </properties>
+      </component>
+      <grid id="a77dd" binding="telPanel" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="28" left="0" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <maximumSize width="417" height="32767"/>
+          <minimumSize width="417" height="54"/>
+          <opaque value="false"/>
+          <preferredSize width="417" height="54"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="a3d74" binding="telIcon" custom-create="true" layout-manager="GridBagLayout">
+            <constraints/>
+            <properties>
+              <preferredSize width="22" height="36"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <component id="da16" class="javax.swing.JFormattedTextField" binding="ftfTelNumber" custom-create="true">
+            <constraints/>
+            <properties>
+              <alignmentX value="1.0"/>
+              <caretColor color="-1"/>
+              <disabledTextColor color="-1"/>
+              <font name="Open Sans Light" size="40" style="0"/>
+              <foreground color="-1"/>
+              <horizontalAlignment value="2"/>
+              <margin top="0" left="50" bottom="0" right="0"/>
+              <maximumSize width="360" height="44"/>
+              <minimumSize width="360" height="44"/>
+              <opaque value="false"/>
+              <preferredSize width="360" height="44"/>
+              <scrollOffset value="0"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="28a30" binding="logoPanel" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="33" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <minimumSize width="165" height="168"/>
+          <opaque value="false"/>
+          <preferredSize width="165" height="168"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <component id="2a25f" class="javax.swing.JButton" binding="btSubmit" custom-create="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.5"/>
+        </constraints>
+        <properties>
+          <background color="-9737365"/>
+          <borderPainted value="false"/>
+          <contentAreaFilled value="false"/>
+          <focusPainted value="false"/>
+          <font name="Open Sans Light" size="24"/>
+          <foreground color="-1"/>
+          <label value="ПРОДОЛЖИТЬ"/>
+          <maximumSize width="330" height="58"/>
+          <minimumSize width="330" height="58"/>
+          <opaque value="false"/>
+          <preferredSize width="330" height="58"/>
+          <text value="ПРОДОЛЖИТЬ"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
