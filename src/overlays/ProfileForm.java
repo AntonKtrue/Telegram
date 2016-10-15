@@ -19,10 +19,18 @@ public class ProfileForm extends OverlayBackground {
     private JTextField tfSurname;
     private JButton btSubmit;
     private JButton btBack;
-    private JButton btExit;
+
     private JLabel lTel;
 
+    private JButton btExit;
+
     private TelegramProxy telegramProxy;
+
+    public ProfileForm() {
+        tfName.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+        tfSurname.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+        btExit.setBorder(BorderFactory.createMatteBorder(0,0,1,0, btExit.getForeground()));
+    }
 
     public void setTelegramProxy(TelegramProxy telegramProxy) {
         this.telegramProxy = telegramProxy;
@@ -38,8 +46,10 @@ public class ProfileForm extends OverlayBackground {
         btBack = new ImageButton(Images.getBackIcon());
         tfName = new JTextField();
         tfSurname = new JTextField();
-        tfName.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
-        tfSurname.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+
+        btExit = new JButton();
+
+
     }
 
     public void addActionListenerToBackButton(ActionListener actionListener) {

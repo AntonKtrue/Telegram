@@ -10,12 +10,13 @@ import javax.swing.*;
  */
 public class Loader {
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(() -> {
             JFrame window = null;
             try {
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                TelegramDAO telegramDAO = new ApiBridgeTelegramDAO(Config.SERVER, Config.APP_ID, Config.APP_HASH);
-                    new DebugTelegramDAO();
+                //new ApiBridgeTelegramDAO(Config.SERVER, Config.APP_ID, Config.APP_HASH);
+                TelegramDAO telegramDAO = new DebugTelegramDAO();
                 window = new Window(telegramDAO);
             } catch (Exception e) {
                 e.printStackTrace();

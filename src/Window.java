@@ -133,7 +133,7 @@ public class Window extends JFrame {
 
     private void initFormCode() throws IOException {
         formCode.addActionListenerForSwitchAction((ActionEvent e) -> {
-            String code = String.valueOf(formCode.getPasswordField1().getPassword());
+            String code = String.valueOf(formCode.getCodeField().getPassword());
             try {
                 if (telegramDAO.canSignIn()) {
                     telegramDAO.signIn(code);
@@ -163,6 +163,12 @@ public class Window extends JFrame {
         });
         profileForm.addActionListenerToSubmitButton((ActionEvent e) -> {
             //Какой метод реализует account.updateUsername или его нужно самому реализовать ?
+        });
+        profileForm.addActionListenerToExitButton((ActionEvent e)-> {
+            telegramDAO.logOut();
+            formTel.clearTelNumber();
+            formCode.clearCodeField();
+            formHead.setContentPanel(formTel.getRootPanel());
         });
     }
 

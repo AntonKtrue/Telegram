@@ -32,7 +32,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="b135c" class="javax.swing.JPasswordField" binding="passwordField1" custom-create="true" default-binding="true">
+          <component id="b135c" class="javax.swing.JPasswordField" binding="codeField" custom-create="true" default-binding="true">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="0.0"/>

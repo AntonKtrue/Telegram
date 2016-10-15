@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="telegram-api-bridge">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/telegram-dao-proxy-v6.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/telegram-dao-proxy-v7.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

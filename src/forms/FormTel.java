@@ -30,9 +30,14 @@ public class FormTel {
             DefaultFormatterFactory factory = new DefaultFormatterFactory(telMask);
             telMask.setPlaceholderCharacter(' ');
             ftfTelNumber.setFormatterFactory(factory);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        ftfTelNumber.setBorder(null);
+        telPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+
     }
 
     public JPanel getRootPanel() {
@@ -48,17 +53,17 @@ public class FormTel {
         return (String) ftfTelNumber.getValue();
     }
 
+    public void clearTelNumber() {
+        ftfTelNumber.setText("");
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
-
         rootPanel = new ImagePanel(Images.getBackground(), false, true, 0);
         logoPanel = new ImagePanel(Images.getLogo(), false, true, 0);
         ftfTelNumber = new JFormattedTextField();
-        ftfTelNumber.setBorder(null);
         telPanel = new JPanel();
-
         telIcon = new ImagePanel(Images.getIconPhone(),false,true,0);
-        telPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
         btSubmit = new ExtendedImageButton(Images.getButtonBackground());
     }
 

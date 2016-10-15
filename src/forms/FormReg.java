@@ -22,6 +22,10 @@ public class FormReg {
     private JPanel buttonPanel;
 
     public FormReg() {
+        namePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+        surnamePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+        tfName.setBorder(null);
+        tfSurname.setBorder(null);
     }
 
     public void addActionListenerForSwitchAction(ActionListener actionListener) {
@@ -42,17 +46,12 @@ public class FormReg {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-
         rootPanel = new ImagePanel(Images.getBackground(), false, true, 0);
         logoPanel = new ImagePanel(Images.getLogoMini(), false, true, 0);
         namePanel = new JPanel();
-        namePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
         surnamePanel = new JPanel();
-        surnamePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
         tfName = new JTextField();
-        tfName.setBorder(null);
         tfSurname = new JTextField();
-        tfSurname.setBorder(null);
         btDone = new ExtendedImageButton(Images.getButtonBackground());
     }
 

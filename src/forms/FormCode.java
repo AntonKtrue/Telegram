@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  */
 public class FormCode {
     private JButton btSubmit;
-    private JPasswordField passwordField1;
+    private JPasswordField codeField;
     private JPanel rootPanel;
     private JLabel lTelNumber;
     private JPanel logoPanel;
@@ -22,6 +22,8 @@ public class FormCode {
     private JPanel buttonPanel;
 
     public FormCode() {
+        codePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
+        codeField.setBorder(null);
     }
 
     public void addActionListenerForSwitchAction(ActionListener actionListener) {
@@ -32,8 +34,12 @@ public class FormCode {
         return rootPanel;
     }
 
-    public JPasswordField getPasswordField1() {
-        return passwordField1;
+    public JPasswordField getCodeField() {
+        return codeField;
+    }
+
+    public void clearCodeField() {
+        codeField.setText("");
     }
 
     public void setLTelNumberText(String tel) {
@@ -42,19 +48,11 @@ public class FormCode {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-
         rootPanel = new ImagePanel(Images.getBackground(), false, true, 0);
-
         logoPanel = new ImagePanel(Images.getLogoMini(), false, true, 0);
-
         codePanel = new JPanel();
         lockIcon = new ImagePanel(Images.getIconLock(), false, true, 0);
-
-        codePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
-        passwordField1 = new JPasswordField();
-        passwordField1.setBorder(null);
+        codeField = new JPasswordField();
         btSubmit = new ExtendedImageButton(Images.getButtonBackground());
-
     }
-
 }
