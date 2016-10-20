@@ -85,29 +85,14 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="87e5c" binding="chatPanel" layout-manager="GridBagLayout">
+          <grid id="87e5c" binding="messagesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
-            <children>
-              <scrollpane id="6672b" binding="chatScrollPane">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="1.0"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="80784" class="javax.swing.JList" binding="chat">
-                    <constraints/>
-                    <properties/>
-                  </component>
-                </children>
-              </scrollpane>
-            </children>
+            <children/>
           </grid>
         </children>
       </grid>

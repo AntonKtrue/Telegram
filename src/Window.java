@@ -1,17 +1,22 @@
 
 import forms.*;
 
+import messages.MessagesForm;
+import org.javagram.dao.Person;
 import org.javagram.dao.TelegramDAO;
 import org.javagram.dao.proxy.TelegramProxy;
 
 import org.telegram.api.engine.RpcException;
 import overlays.MyBufferedOverlayDialog;
 import overlays.ProfileForm;
+import resources.Images;
 import utils.ComponentResizer;
 import utils.ComponentResizerExtended;
 import utils.FrameDragger;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -45,6 +50,7 @@ public class Window extends JFrame {
         setUndecorated(true);
         setSize(900, 630);
         setMinimumSize(new Dimension(900, 630));
+        setTitle("kaa-work@telegram");
         initDragAndResize();
         initFormTel();
         initFromReg();
@@ -60,9 +66,13 @@ public class Window extends JFrame {
         formHead.setContentPanel(formTel.getRootPanel());
         //formHead.setContentPanel(formReg.getRootPanel());
         //formHead.setContentPanel(formCode.getRootPanel());
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         formHead.addActionListenerForClose((ActionEvent e) -> closeWindow());
         formHead.addActionListenerForMinimize((ActionEvent e) -> setState(Frame.ICONIFIED));
         setContentPane(formHead.getRootPanel());
+        setLocationRelativeTo(null);
+
+        setVisible(true);
     }
 
     public Window(TelegramDAO telegramDAO) throws Exception {
@@ -141,10 +151,8 @@ public class Window extends JFrame {
                     telegramDAO.signUp(code, formReg.getTfName().getText(), formReg.getTfSurname().getText());
                 }
                 telegramProxy = new TelegramProxy(telegramDAO);
-                formMain = new FormMain(telegramDAO, telegramProxy);
-                initFormMain();
-                windowManager = new MyBufferedOverlayDialog(formMain.getRootPanel(), profileForm);
-                formHead.setContentPanel(windowManager);
+
+                switchToFormMain();
             } catch (RpcException ex) {
                 JOptionPane.showMessageDialog(Window.this, ERR_CODE);
             } catch (IOException ex) {
@@ -153,10 +161,58 @@ public class Window extends JFrame {
         });
     }
 
-    private void initFormMain() throws IOException {
+    private void switchToFormMain() {
+        initFormMain();
+        formMain.getContactsList().setListData(telegramProxy.getPersons().toArray());
+        formMain.getContactsList().setCellRenderer(new ContactItem(telegramProxy));
+        windowManager = new MyBufferedOverlayDialog(formMain.getRootPanel(), profileForm);
+        formHead.setContentPanel(windowManager);
+    }
+
+    private void displayDialog(Person person) {
+        try {
+            MessagesForm messagesForm = getMessagesForm();
+            messagesForm.display(person);
+            formMain.getMessagesPanel().revalidate();
+            formMain.getMessagesPanel().repaint();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Проблема соединения с сервером");
+        }
+    }
+
+    private MessagesForm getMessagesForm() {
+        if(formMain.getMessagesPanel() instanceof MessagesForm) {
+            return (MessagesForm) formMain.getMessagesPanel();
+        } else {
+            return createMessagesForm();
+        }
+    }
+
+    private MessagesForm createMessagesForm() {
+        MessagesForm messagesForm = new MessagesForm(telegramProxy);
+        formMain.setMessagesPanel(messagesForm);
+        formMain.getRootPanel().revalidate();
+        formMain.getRootPanel().repaint();
+        return messagesForm;
+    }
+
+    private void initFormMain() {
+        formMain = new FormMain();
         formMain.addActionListenerForGearButton((ActionEvent e) -> {
             profileForm.setTelegramProxy(telegramProxy);
             windowManager.setIndex(PROFILE_FORM);
+        });
+        formMain.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(telegramProxy == null) {
+                    displayDialog(null);
+                } else {
+                    displayDialog(formMain.getSelectedValue());
+                }
+            }
         });
         profileForm.addActionListenerToBackButton((ActionEvent e) -> {
             windowManager.setIndex(MAIN_WINDOW);
@@ -174,15 +230,27 @@ public class Window extends JFrame {
 
     private void closeWindow() {
         if (telegramDAO.isLoggedIn()) {
-            try {
-                telegramDAO.logOut();
-            } catch (Exception exc) {
-                exc.printStackTrace();
+            int result = JOptionPane.showOptionDialog(Window.this,
+                    "Вы действительно хотите выйти?",
+                    "Выход",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    new Object[]{"Да","Нет"},
+                    "Да");
+            if(result == JOptionPane.YES_OPTION) {
+                try {
+                    telegramDAO.logOut();
+                    dispose();
+                    System.exit(0);
+                } catch (Exception exc) {
+                    exc.printStackTrace();
+                }
             }
         }
-        dispose();
-        System.exit(0);
     }
+
+
 
 
 }
