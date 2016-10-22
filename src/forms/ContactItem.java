@@ -65,6 +65,7 @@ public class ContactItem extends JPanel implements ListCellRenderer<Person> {
         ((PhotoPanel)avaPanel).setImage(GuiHelper.getPhoto(telegramProxy, person, true, true));
         ((PhotoPanel)avaPanel).setOnline(telegramProxy.isOnline(person));
 
+
         return rootPanel;
     }
 

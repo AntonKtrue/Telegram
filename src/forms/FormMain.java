@@ -1,6 +1,7 @@
 package forms;
 
 import components.ImageButton;
+import components.ImagePanel;
 import org.javagram.dao.*;
 import resources.Images;
 
@@ -24,10 +25,18 @@ public class FormMain {
     private JPanel rightPanel;
     private JPanel messagesPanel;
     private JPanel messagePanel;
+    private JPanel logoMicro;
+    private JPanel infoPanel;
+    private JPanel mePanel;
+    private JPanel avaImage;
+    private JLabel userName;
 
     public FormMain() {
         messagesPanel.add(new JPanel());
+    }
 
+    public JButton getBtGear() {
+        return btGear;
     }
 
     public JPanel getRootPanel() {
@@ -42,13 +51,34 @@ public class FormMain {
         return contactsList;
     }
 
+    public JLabel getUserName() {
+        return userName;
+    }
+
+    public JPanel getAvaImage() {
+        return avaImage;
+    }
+
+    public void setAvaImage(JPanel avaImage) {
+        this.avaImage = avaImage;
+    }
+
     public void addActionListenerForGearButton(ActionListener actionListener) {
         btGear.addActionListener(actionListener);
     }
 
+    public JPanel getMePanel() {
+        return mePanel;
+    }
+
+
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
         btGear = new ImageButton(Images.getGearIcon());
+        logoMicro = new ImagePanel(Images.getLogoMicro(), false, true, 0);
+
+
     }
 
     public Person getSelectedValue() {

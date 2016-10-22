@@ -1,11 +1,13 @@
 
+import components.GuiHelper;
+import components.PhotoPanel;
 import forms.*;
 
 import messages.MessagesForm;
-import org.javagram.dao.Person;
-import org.javagram.dao.TelegramDAO;
+import org.javagram.dao.*;
 import org.javagram.dao.proxy.TelegramProxy;
 
+import org.javagram.dao.proxy.changes.UpdateChanges;
 import org.telegram.api.engine.RpcException;
 import overlays.MyBufferedOverlayDialog;
 import overlays.ProfileForm;
@@ -21,6 +23,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Objects;
 
 
 /**
@@ -41,6 +44,8 @@ public class Window extends JFrame {
     private ProfileForm profileForm = new ProfileForm();
     private MyBufferedOverlayDialog windowManager;
 
+    private Timer timer;
+
     private static final int MAIN_WINDOW = -1, PROFILE_FORM = 0;
     public static final String ERR_TEL = "Введите корректный номер телефона и нажмите \"Продолжить\"";
     public static final String ERR_CODE = "Вы ввели некоректный код";
@@ -55,6 +60,7 @@ public class Window extends JFrame {
         initFormTel();
         initFromReg();
         initFormCode();
+        initFormMain();
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -73,6 +79,61 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
 
         setVisible(true);
+        timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                checkForUpdates();
+            }
+        });
+        timer.start();
+    }
+
+
+
+    private void checkForUpdates() {
+        if(telegramProxy != null) {
+            UpdateChanges updateChanges = telegramProxy.update();
+
+            int photosChangedCount = updateChanges.getLargePhotosChanged().size() +
+                    updateChanges.getSmallPhotosChanged().size() +
+                    updateChanges.getStatusesChanged().size();
+            if(updateChanges.getListChanged()) {
+                updateContacts();
+            } else if (photosChangedCount != 0) {
+                formMain.getContactsList().repaint();
+            }
+
+            Person currentBuddy = getMessagesForm().getPerson();
+            Person targetPerson = formMain.getSelectedValue();
+
+            org.javagram.dao.Dialog currentDialog = currentBuddy != null ?
+                    telegramProxy.getDialog(currentBuddy) : null;
+            if(!Objects.equals(targetPerson, currentBuddy) ||
+                   updateChanges.getDialogsToReset().contains(currentDialog) ||
+                    updateChanges.getDialogsChanged().getDeleted().contains(currentDialog)) {
+                updateMessages();
+            }
+
+            if(updateChanges.getPersonsChanged().getChanged().containsKey(telegramProxy.getMe())
+                    || updateChanges.getSmallPhotosChanged().contains(telegramProxy.getMe())
+                    || updateChanges.getLargePhotosChanged().contains(telegramProxy.getMe())) {
+               // displayMe(telegramProxy.getMe());
+            }
+
+        }
+    }
+
+
+
+    private void updateContacts() {
+        Person person = formMain.getSelectedValue();
+
+    }
+
+    private void updateMessages() {
+        displayDialog(formMain.getSelectedValue());
+        formMain.getRootPanel().revalidate();
+        formMain.getRootPanel().repaint();
     }
 
     public Window(TelegramDAO telegramDAO) throws Exception {
@@ -119,11 +180,14 @@ public class Window extends JFrame {
                 } else {
                     formHead.setContentPanel(formReg.getRootPanel());
                 }
+                telNumber = null;
             } else {
                 JOptionPane.showMessageDialog(Window.this, ERR_TEL);
             }
         });
     }
+
+
 
     private void showFormCode() throws IOException {
         formCode.setLTelNumberText(telegramDAO.getPhoneNumber());
@@ -150,7 +214,21 @@ public class Window extends JFrame {
                 } else {
                     telegramDAO.signUp(code, formReg.getTfName().getText(), formReg.getTfSurname().getText());
                 }
-                telegramProxy = new TelegramProxy(telegramDAO);
+                if(telegramDAO.isLoggedIn()) {
+                    telegramProxy = new TelegramProxy(telegramDAO);
+                    profileForm.getBtExit().setEnabled(true);
+                    formMain.getBtGear().setEnabled(true);
+                    Person me = telegramProxy.getMe();
+                    formMain.setAvaImage(new PhotoPanel(null, true, false, 0, false));
+                    ((PhotoPanel)formMain.getAvaImage()).setImage(GuiHelper.getPhoto(telegramProxy, me, true, true));
+                    formMain.getUserName().setText(me.getFirstName()+ " " + me.getLastName());
+                    formMain.getAvaImage().revalidate();
+                    formMain.getAvaImage().repaint();
+                    formMain.getRootPanel().revalidate();
+                    formMain.getRootPanel().repaint();
+                }
+
+
 
                 switchToFormMain();
             } catch (RpcException ex) {
@@ -162,7 +240,7 @@ public class Window extends JFrame {
     }
 
     private void switchToFormMain() {
-        initFormMain();
+
         formMain.getContactsList().setListData(telegramProxy.getPersons().toArray());
         formMain.getContactsList().setCellRenderer(new ContactItem(telegramProxy));
         windowManager = new MyBufferedOverlayDialog(formMain.getRootPanel(), profileForm);
@@ -199,7 +277,10 @@ public class Window extends JFrame {
     }
 
     private void initFormMain() {
+
+
         formMain = new FormMain();
+
         formMain.addActionListenerForGearButton((ActionEvent e) -> {
             profileForm.setTelegramProxy(telegramProxy);
             windowManager.setIndex(PROFILE_FORM);
@@ -221,11 +302,23 @@ public class Window extends JFrame {
             //Какой метод реализует account.updateUsername или его нужно самому реализовать ?
         });
         profileForm.addActionListenerToExitButton((ActionEvent e)-> {
-            telegramDAO.logOut();
+            logOut();
+        });
+
+    }
+
+    private void logOut() {
+        if(telegramDAO.logOut()) {
+            destroyTelegramProxy();
             formTel.clearTelNumber();
             formCode.clearCodeField();
             formHead.setContentPanel(formTel.getRootPanel());
-        });
+            profileForm.getBtExit().setEnabled(false);
+            formMain.getBtGear().setEnabled(false);
+            //telegramDAO.acceptNumber(); сбросить номер в DAO ?
+        } else {
+            JOptionPane.showMessageDialog(this,"Ошибка выхода!");
+        }
     }
 
     private void closeWindow() {
@@ -240,14 +333,25 @@ public class Window extends JFrame {
                     "Да");
             if(result == JOptionPane.YES_OPTION) {
                 try {
-                    telegramDAO.logOut();
-                    dispose();
-                    System.exit(0);
+                    exit();
                 } catch (Exception exc) {
                     exc.printStackTrace();
                 }
             }
+        } else {
+            exit();
         }
+    }
+
+    private void exit() {
+        telegramDAO.close();
+        System.exit(0);
+    }
+
+    private void destroyTelegramProxy() {
+        telegramProxy = null;
+        formMain.getContactsList().setCellRenderer(new DefaultListCellRenderer());
+        formMain.getContactsList().setListData(new Person[0]);
     }
 
 

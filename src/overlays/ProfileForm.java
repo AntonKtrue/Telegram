@@ -27,6 +27,7 @@ public class ProfileForm extends OverlayBackground {
     private TelegramProxy telegramProxy;
 
     public ProfileForm() {
+        btExit.setEnabled(false);
         tfName.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
         tfSurname.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
         btExit.setBorder(BorderFactory.createMatteBorder(0,0,1,0, btExit.getForeground()));
@@ -34,9 +35,14 @@ public class ProfileForm extends OverlayBackground {
 
     public void setTelegramProxy(TelegramProxy telegramProxy) {
         this.telegramProxy = telegramProxy;
+
         tfName.setText(telegramProxy.getMe().getFirstName());
         tfSurname.setText(telegramProxy.getMe().getLastName());
         lTel.setText(telegramProxy.getMe().getPhoneNumber());
+    }
+
+    public JButton getBtExit() {
+        return btExit;
     }
 
     private void createUIComponents() {

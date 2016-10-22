@@ -55,6 +55,7 @@ public class FormTel {
 
     public void clearTelNumber() {
         ftfTelNumber.setText("");
+        ftfTelNumber.setValue("");
     }
 
     private void createUIComponents() {

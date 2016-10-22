@@ -14,6 +14,7 @@ public class Images {
       private static BufferedImage background;
       private static BufferedImage logo;
       private static BufferedImage logoMini;
+      private static BufferedImage logoMicro;
       private static BufferedImage iconPhone;
       private static BufferedImage buttonBackground;
       private static BufferedImage iconLock;
@@ -21,6 +22,7 @@ public class Images {
       private static BufferedImage largeUserImage;
       private static BufferedImage gearIcon;
       private static BufferedImage backIcon;
+
 
 //    private static BufferedImage background;
 //    private static BufferedImage logo;
@@ -55,6 +57,12 @@ public class Images {
         if (logoMini == null)
             logoMini = loadImage("logo-mini.png");
         return logoMini;
+    }
+
+    public static BufferedImage getLogoMicro() {
+        if (logoMicro == null)
+            logoMicro = loadImage("logo-micro.png");
+        return logoMicro;
     }
 
     public static BufferedImage getIconPhone() {
@@ -178,6 +186,8 @@ public class Images {
             smallUserImage = loadImage("logo-mini.png"); //TODO
         return smallUserImage;
     }
+
+
 
     public synchronized static BufferedImage getLargeUserImage() {
        if (largeUserImage == null)

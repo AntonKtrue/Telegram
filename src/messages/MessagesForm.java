@@ -29,6 +29,10 @@ public class MessagesForm extends JPanel {
         this(telegramProxy, null);
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
     public MessagesForm(TelegramProxy telegramProxy, Person person) {
         this.telegramProxy = telegramProxy;
         display(person);

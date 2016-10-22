@@ -50,13 +50,13 @@ public class MessageForm extends JPanel {
         Polygon polygon = new Polygon();
         //g.setColor(Color.black);
         switch (alignment) {
-            case FlowLayout.RIGHT:
+            case FlowLayout.LEFT:
                 polygon.addPoint(textPane.getX()+MARGIN,textPane.getY() + textPane.getHeight()/2 + 5);
                 polygon.addPoint(textPane.getX()+MARGIN/2,textPane.getY() + textPane.getHeight()/2);
                 polygon.addPoint(textPane.getX()+MARGIN,textPane.getY() + textPane.getHeight()/2 - 5);
                 g.fillPolygon(polygon);
                 break;
-            case FlowLayout.LEFT:
+            case FlowLayout.RIGHT:
                 polygon.addPoint(textPane.getWidth()-MARGIN,textPane.getY() + textPane.getHeight()/2 + 5);
                 polygon.addPoint(textPane.getWidth()-MARGIN/2,textPane.getY() + textPane.getHeight()/2);
                 polygon.addPoint(textPane.getWidth()-MARGIN,textPane.getY() + textPane.getHeight()/2 - 5);
