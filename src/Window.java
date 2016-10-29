@@ -1,17 +1,22 @@
 
 import components.GuiHelper;
 import components.PhotoPanel;
+import contacts.ContactItem;
+import contacts.ContactsList;
 import forms.*;
 
 import messages.MessagesForm;
 import org.javagram.dao.*;
+import org.javagram.dao.Dialog;
 import org.javagram.dao.proxy.TelegramProxy;
 
 import org.javagram.dao.proxy.changes.UpdateChanges;
 import org.telegram.api.engine.RpcException;
+import overlays.AddContactForm;
+import overlays.EditContactForm;
 import overlays.MyBufferedOverlayDialog;
 import overlays.ProfileForm;
-import resources.Images;
+
 import utils.ComponentResizer;
 import utils.ComponentResizerExtended;
 import utils.FrameDragger;
@@ -21,6 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Objects;
@@ -42,16 +48,22 @@ public class Window extends JFrame {
     private TelegramProxy telegramProxy;
 
     private ProfileForm profileForm = new ProfileForm();
+    private EditContactForm editContactForm  = new EditContactForm();;
+    private AddContactForm addContactForm = new AddContactForm();
+
+
     private MyBufferedOverlayDialog windowManager;
+    private ContactsList contactsList;
 
     private Timer timer;
 
-    private static final int MAIN_WINDOW = -1, PROFILE_FORM = 0;
+    private static final int MAIN_WINDOW = -1, PROFILE_FORM = 0, ADD_CONTACT_FORM = 1, EDIT_CONTACT_FORM = 2;
     public static final String ERR_TEL = "Введите корректный номер телефона и нажмите \"Продолжить\"";
     public static final String ERR_CODE = "Вы ввели некоректный код";
 
     {
         formHead = new FormHead();
+
         setUndecorated(true);
         setSize(900, 630);
         setMinimumSize(new Dimension(900, 630));
@@ -86,6 +98,8 @@ public class Window extends JFrame {
             }
         });
         timer.start();
+
+
     }
 
 
@@ -100,40 +114,50 @@ public class Window extends JFrame {
             if(updateChanges.getListChanged()) {
                 updateContacts();
             } else if (photosChangedCount != 0) {
-                formMain.getContactsList().repaint();
+                contactsList.repaint();
             }
 
             Person currentBuddy = getMessagesForm().getPerson();
-            Person targetPerson = formMain.getSelectedValue();
+            Person targetPerson = contactsList.getSelectedValue();
 
-            org.javagram.dao.Dialog currentDialog = currentBuddy != null ?
-                    telegramProxy.getDialog(currentBuddy) : null;
+            Dialog currentDialog = currentBuddy != null ? telegramProxy.getDialog(currentBuddy) : null;
+
             if(!Objects.equals(targetPerson, currentBuddy) ||
                    updateChanges.getDialogsToReset().contains(currentDialog) ||
                     updateChanges.getDialogsChanged().getDeleted().contains(currentDialog)) {
                 updateMessages();
+            } else if(updateChanges.getPersonsChanged().getChanged().containsKey(currentBuddy)
+                    || updateChanges.getSmallPhotosChanged().contains(currentBuddy)
+                    || updateChanges.getLargePhotosChanged().contains(currentBuddy)) {
+                displayBuddy(targetPerson);
             }
 
             if(updateChanges.getPersonsChanged().getChanged().containsKey(telegramProxy.getMe())
                     || updateChanges.getSmallPhotosChanged().contains(telegramProxy.getMe())
                     || updateChanges.getLargePhotosChanged().contains(telegramProxy.getMe())) {
-               // displayMe(telegramProxy.getMe());
+               displayMe(telegramProxy.getMe());
             }
 
         }
     }
 
+    private void displayMe(Me me) {
 
+    }
+
+    private void displayBuddy(Person person) {
+
+    }
 
     private void updateContacts() {
-        Person person = formMain.getSelectedValue();
+        Person person = contactsList.getSelectedValue();
 
     }
 
     private void updateMessages() {
-        displayDialog(formMain.getSelectedValue());
-        formMain.getRootPanel().revalidate();
-        formMain.getRootPanel().repaint();
+        displayDialog(contactsList.getSelectedValue());
+        formMain.revalidate();
+        formMain.repaint();
     }
 
     public Window(TelegramDAO telegramDAO) throws Exception {
@@ -224,8 +248,8 @@ public class Window extends JFrame {
                     formMain.getUserName().setText(me.getFirstName()+ " " + me.getLastName());
                     formMain.getAvaImage().revalidate();
                     formMain.getAvaImage().repaint();
-                    formMain.getRootPanel().revalidate();
-                    formMain.getRootPanel().repaint();
+                    formMain.revalidate();
+                    formMain.repaint();
                 }
 
 
@@ -240,10 +264,10 @@ public class Window extends JFrame {
     }
 
     private void switchToFormMain() {
-
-        formMain.getContactsList().setListData(telegramProxy.getPersons().toArray());
-        formMain.getContactsList().setCellRenderer(new ContactItem(telegramProxy));
-        windowManager = new MyBufferedOverlayDialog(formMain.getRootPanel(), profileForm);
+        //contactsList.getContactsList().setListData(telegramProxy.getPersons().toArray());
+        //formMain.getContactsList().setCellRenderer(new ContactItem(telegramProxy));
+        contactsList.setTelegramProxy(telegramProxy);
+        windowManager = new MyBufferedOverlayDialog(formMain, profileForm, addContactForm, editContactForm);
         formHead.setContentPanel(windowManager);
     }
 
@@ -271,27 +295,53 @@ public class Window extends JFrame {
     private MessagesForm createMessagesForm() {
         MessagesForm messagesForm = new MessagesForm(telegramProxy);
         formMain.setMessagesPanel(messagesForm);
-        formMain.getRootPanel().revalidate();
-        formMain.getRootPanel().repaint();
+        formMain.revalidate();
+        formMain.repaint();
         return messagesForm;
     }
 
     private void initFormMain() {
 
-
         formMain = new FormMain();
+        contactsList = new ContactsList();
+        formMain.setContactsPanel(contactsList);
 
         formMain.addActionListenerForGearButton((ActionEvent e) -> {
             profileForm.setTelegramProxy(telegramProxy);
             windowManager.setIndex(PROFILE_FORM);
         });
-        formMain.addListSelectionListener(new ListSelectionListener() {
+        formMain.addActionListenerForEditContactButton((ActionEvent e)-> {
+            windowManager.setIndex(EDIT_CONTACT_FORM);
+            editContactForm.setPhoto(GuiHelper.getPhoto(telegramProxy, contactsList.getSelectedValue(), true, true));
+
+           // editContactForm.revalidate();
+           // editContactForm.repaint();
+
+        });
+        formMain.addSendMessageListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Person buddy =  contactsList.getSelectedValue();
+                String text = formMain.getMessageText().trim();
+                if(telegramProxy != null && buddy != null && !text.isEmpty()) {
+                    try {
+                        telegramProxy.sendMessage(buddy, text);
+                        formMain.setMessageText("");
+                        checkForUpdates();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(formMain, "Не могу отправить сообщение");
+                    }
+                }
+            }
+        });
+
+        contactsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if(telegramProxy == null) {
                     displayDialog(null);
                 } else {
-                    displayDialog(formMain.getSelectedValue());
+                    displayDialog(contactsList.getSelectedValue());
                 }
             }
         });
@@ -304,6 +354,12 @@ public class Window extends JFrame {
         profileForm.addActionListenerToExitButton((ActionEvent e)-> {
             logOut();
         });
+
+        editContactForm.addActionListenerForBackButton((ActionEvent e) -> {
+            windowManager.setIndex(MAIN_WINDOW);
+        });
+
+
 
     }
 
@@ -339,7 +395,11 @@ public class Window extends JFrame {
                 }
             }
         } else {
-            exit();
+            try {
+                exit();
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
         }
     }
 
@@ -350,8 +410,7 @@ public class Window extends JFrame {
 
     private void destroyTelegramProxy() {
         telegramProxy = null;
-        formMain.getContactsList().setCellRenderer(new DefaultListCellRenderer());
-        formMain.getContactsList().setListData(new Person[0]);
+        contactsList.setTelegramProxy(telegramProxy);
     }
 
 

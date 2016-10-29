@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="overlays.EditContactForm">
+  <grid id="27dc6" binding="rootPanel" custom-create="true" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="500" height="415"/>
+    </constraints>
+    <properties>
+      <opaque value="false"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="9bf95" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="70" left="0" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <font name="Open Sans" size="36"/>
+          <foreground color="-16731162"/>
+          <text value="Редактирование профиля"/>
+        </properties>
+      </component>
+      <grid id="c3071" binding="contactPanel" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <minimumSize width="350" height="120"/>
+          <opaque value="false"/>
+          <preferredSize width="350" height="120"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="c7e3c" binding="namePanel" custom-create="true" layout-manager="GridBagLayout">
+            <constraints border-constraint="North"/>
+            <properties>
+              <minimumSize width="0" height="50"/>
+              <opaque value="false"/>
+              <preferredSize width="0" height="50"/>
+            </properties>
+            <border type="none" title-position="5"/>
+            <children>
+              <component id="43815" class="javax.swing.JTextField" binding="contactNameField" custom-create="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag top="0" left="70" bottom="0" right="0" weightx="1.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <caretColor color="-1"/>
+                  <font name="Open Sans" size="28"/>
+                  <foreground color="-1"/>
+                  <horizontalAlignment value="0"/>
+                  <margin top="0" left="0" bottom="0" right="0"/>
+                  <opaque value="false"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="56f94" layout-manager="GridBagLayout">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <minimumSize width="0" height="40"/>
+              <opaque value="false"/>
+              <preferredSize width="0" height="40"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="4065c" class="javax.swing.JLabel" binding="telLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="10" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <foreground color="-1"/>
+                  <text value="Label"/>
+                </properties>
+              </component>
+              <component id="5e0e" class="javax.swing.JButton" binding="deleteContact" custom-create="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="10" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <contentAreaFilled value="false"/>
+                  <foreground color="-570034"/>
+                  <label value="удалить пользователя"/>
+                  <maximumSize width="151" height="40"/>
+                  <minimumSize width="151" height="40"/>
+                  <opaque value="false"/>
+                  <preferredSize width="151" height="40"/>
+                  <text value="удалить пользователя"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <component id="4436f" class="javax.swing.JButton" binding="backButton" custom-create="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="55" bottom="33" right="0" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Button"/>
+        </properties>
+      </component>
+      <component id="dc292" class="javax.swing.JButton" binding="saveButton" custom-create="true">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font name="Open Sans" size="28"/>
+          <foreground color="-1"/>
+          <maximumSize width="332" height="58"/>
+          <minimumSize width="332" height="58"/>
+          <preferredSize width="332" height="58"/>
+          <text value="СОХРАНИТЬ"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

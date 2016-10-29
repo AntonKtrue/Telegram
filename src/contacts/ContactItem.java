@@ -1,4 +1,4 @@
-package forms;
+package contacts;
 
 import components.GuiHelper;
 import components.PhotoPanel;

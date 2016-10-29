@@ -43,6 +43,14 @@ public class GuiHelper {
         }
     }
 
+    public static Rectangle drawLine(Graphics g, Color color, int x, int y, int width, int height) {
+        Rectangle rectangle = getAreaFor(new Rectangle(x, y, width, height),new Dimension(width, height));
+        g.setColor(color);
+        g.fillRect(x,y,width,height);
+       // g.drawRect(0,0,width,height);
+        return rectangle;
+    }
+
     public static Rectangle drawImage(Graphics g, BufferedImage image, int x, int y, int width, int height) {
         Rectangle rect = getAreaFor(new Rectangle(x, y, width, height), new Dimension(image.getWidth(), image.getHeight()));
         g.drawImage(image, rect.x, rect.y, rect.width, rect.height, null);
