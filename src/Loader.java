@@ -14,8 +14,8 @@ public class Loader {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                TelegramDAO telegramDAO = new ApiBridgeTelegramDAO(Config.SERVER, Config.APP_ID, Config.APP_HASH);
-                //TelegramDAO telegramDAO = new DebugTelegramDAO();
+                //TelegramDAO telegramDAO = new ApiBridgeTelegramDAO(Config.SERVER, Config.APP_ID, Config.APP_HASH);
+                TelegramDAO telegramDAO = new DebugTelegramDAO();
                 JFrame window = new Window(telegramDAO);
             } catch (Exception e) {
                 e.printStackTrace();

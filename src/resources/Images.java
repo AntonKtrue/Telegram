@@ -29,7 +29,7 @@ public class Images {
 //    private static BufferedImage sendMessageImage;
 
 //    private static BufferedImage gearIcon;
-//    private static BufferedImage plusImage;
+      private static BufferedImage plusImage;
 //    private static BufferedImage magnifyingGlassIcon;
 //    private static BufferedImage pencilIcon;
 //    private static BufferedImage penIcon;
@@ -115,11 +115,11 @@ public class Images {
     }
 
     //
-//    public static BufferedImage getPlus() {
-//        if(plusImage == null)
-//            plusImage = loadImage("icon-plus.png");
-//        return plusImage;
-//    }
+    public static BufferedImage getPlus() {
+        if(plusImage == null)
+            plusImage = loadImage("icon-plus.png");
+        return plusImage;
+    }
 //
 //    public static BufferedImage getMagnifyingGlassIcon() {
 //        if(magnifyingGlassIcon == null)

@@ -47,7 +47,7 @@ public class FormMain extends JPanel {
         return contactsPanel.getComponent(0);
     }
 
-    public void setContactsPanel(JPanel contactsPanel) {
+    public void setContactsPanel(Component contactsPanel) {
         this.contactsPanel.removeAll();
         this.contactsPanel.add(contactsPanel);
     }

@@ -35,7 +35,7 @@
           <component id="b135c" class="javax.swing.JPasswordField" binding="codeField" custom-create="true" default-binding="true">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <gridbag top="0" left="0" bottom="5" right="0" weightx="1.0" weighty="0.0"/>
             </constraints>
             <properties>
               <caretColor color="-1"/>
@@ -49,7 +49,7 @@
           <grid id="bbb38" binding="lockIcon" custom-create="true" layout-manager="GridBagLayout">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <gridbag top="0" left="0" bottom="5" right="0" weightx="1.0" weighty="0.0"/>
             </constraints>
             <properties>
               <preferredSize width="26" height="44"/>

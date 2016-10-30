@@ -1,7 +1,6 @@
 
 import components.GuiHelper;
 import components.PhotoPanel;
-import contacts.ContactItem;
 import contacts.ContactsList;
 import forms.*;
 
@@ -12,10 +11,7 @@ import org.javagram.dao.proxy.TelegramProxy;
 
 import org.javagram.dao.proxy.changes.UpdateChanges;
 import org.telegram.api.engine.RpcException;
-import overlays.AddContactForm;
-import overlays.EditContactForm;
-import overlays.MyBufferedOverlayDialog;
-import overlays.ProfileForm;
+import overlays.*;
 
 import utils.ComponentResizer;
 import utils.ComponentResizerExtended;
@@ -48,9 +44,11 @@ public class Window extends JFrame {
     private TelegramProxy telegramProxy;
 
     private ProfileForm profileForm = new ProfileForm();
-    private EditContactForm editContactForm  = new EditContactForm();;
+    private EditContactorm editContactForm  = new EditContactorm();
     private AddContactForm addContactForm = new AddContactForm();
 
+    private MyLayeredPane contactsLayeredPane = new MyLayeredPane();
+    private PlusOverlay plusOverlay = new PlusOverlay();
 
     private MyBufferedOverlayDialog windowManager;
     private ContactsList contactsList;
@@ -304,7 +302,13 @@ public class Window extends JFrame {
 
         formMain = new FormMain();
         contactsList = new ContactsList();
-        formMain.setContactsPanel(contactsList);
+        //formMain.setContactsPanel(contactsList);
+        formMain.setContactsPanel(contactsLayeredPane);
+        contactsLayeredPane.add(contactsList, new Integer(0));
+        contactsLayeredPane.add(plusOverlay, new Integer(1));
+        plusOverlay.addActionListenerToPlusButton((ActionEvent e) -> {
+            windowManager.setIndex(ADD_CONTACT_FORM);
+        });
 
         formMain.addActionListenerForGearButton((ActionEvent e) -> {
             profileForm.setTelegramProxy(telegramProxy);
@@ -313,9 +317,9 @@ public class Window extends JFrame {
         formMain.addActionListenerForEditContactButton((ActionEvent e)-> {
             windowManager.setIndex(EDIT_CONTACT_FORM);
             editContactForm.setPhoto(GuiHelper.getPhoto(telegramProxy, contactsList.getSelectedValue(), true, true));
-
-           // editContactForm.revalidate();
-           // editContactForm.repaint();
+            editContactForm.setTel(((Contact) contactsList.getSelectedValue()).getPhoneNumber());
+            editContactForm.setContactNameFieldText(contactsList.getSelectedValue().getFirstName() + " " +
+                contactsList.getSelectedValue().getLastName());
 
         });
         formMain.addSendMessageListener(new ActionListener() {
@@ -359,6 +363,9 @@ public class Window extends JFrame {
             windowManager.setIndex(MAIN_WINDOW);
         });
 
+        addContactForm.addActionListenerForBackButton((ActionEvent e) -> {
+            windowManager.setIndex(MAIN_WINDOW);
+        });
 
 
     }

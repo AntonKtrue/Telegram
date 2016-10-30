@@ -34,7 +34,7 @@ public class Fonts {
     }
 
     private static Font loadFont(String name) {
-        try(InputStream inputStream = Fonts.class.getResourceAsStream("fonts/" + name)) {
+        try(InputStream inputStream = Fonts.class.getResourceAsStream("/fonts/" + name)) {
             return Font.createFont(Font.TRUETYPE_FONT, inputStream);
         } catch (Exception e) {
             e.printStackTrace();
