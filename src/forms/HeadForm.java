@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Anton on 14.05.2016.
  */
-public class FormHead {
+public class HeadForm {
     private JPanel rootPanel;
     private JPanel contentPanel;
     private JPanel headerPanel;

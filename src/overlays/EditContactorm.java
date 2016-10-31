@@ -23,12 +23,12 @@ public class EditContactorm extends OverlayBackground {
     private JPanel contactPanel;
     private JPanel namePanel;
     private JTextField contactNameField;
-    private JLabel telLabel;
+    private JLabel phoneLabel;
     private JButton deleteContact;
     private JButton backButton;
     private JButton saveButton;
     private BufferedImage buddyPhoto;
-
+    private int id;
     {
         namePanel.setOpaque(false);
         contactNameField.setBorder(null);
@@ -39,13 +39,21 @@ public class EditContactorm extends OverlayBackground {
         this.buddyPhoto = photo;
     }
 
-    public void setTel(String telNumber) {
-        telLabel.setText(telNumber);
+    public void setContactInfo(ContactInfo info) {
+        contactNameField.setText(info.getFirstName() + " " + info.getLastName());
+        phoneLabel.setText(info.getPhone());
+        id = info.getId();
     }
 
-    public void setContactNameFieldText(String userName) {
-        contactNameField.setText(userName);
+    public ContactInfo getContactInfo() {
+        String[] nameText = contactNameField.getText().trim().split("\\s");
+        return new ContactInfo(phoneLabel.getText().trim(),
+                nameText[0],
+                nameText.length > 1 ? nameText[1] : "",
+                id);
     }
+
+
 
     private void createUIComponents() {
         // TODO: place custom component creation code here

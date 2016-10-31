@@ -32,11 +32,12 @@ import java.util.Objects;
  * Created by Anton on 13.05.2016.
  */
 public class Window extends JFrame {
-    private FormHead formHead;
-    private FormTel formTel = new FormTel();
-    private FormReg formReg = new FormReg();
-    private FormMain formMain;
-    private FormCode formCode = new FormCode();
+    private HeadForm headForm;
+    private PhoneForm phoneForm = new PhoneForm();
+    private RegistrationForm registrationForm = new RegistrationForm();
+    private MainForm formMain;
+    private CodeForm codeForm = new CodeForm();
+
     private FrameDragger frameDragger;
     private ComponentResizer cr;
 
@@ -60,43 +61,37 @@ public class Window extends JFrame {
     public static final String ERR_CODE = "Вы ввели некоректный код";
 
     {
-        formHead = new FormHead();
-
+        headForm = new HeadForm();
         setUndecorated(true);
         setSize(900, 630);
         setMinimumSize(new Dimension(900, 630));
         setTitle("kaa-work@telegram");
         initDragAndResize();
-        initFormTel();
-        initFromReg();
-        initFormCode();
-        initFormMain();
+        initPhoneForm();
+        initRegistrationForm();
+        initCodeForm();
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 closeWindow();
             }
         });
-        formHead.getHeaderPanel().addMouseListener(frameDragger);
-        formHead.getHeaderPanel().addMouseMotionListener(frameDragger);
-        formHead.setContentPanel(formTel.getRootPanel());
-        //formHead.setContentPanel(formReg.getRootPanel());
-        //formHead.setContentPanel(formCode.getRootPanel());
+        headForm.getHeaderPanel().addMouseListener(frameDragger);
+        headForm.getHeaderPanel().addMouseMotionListener(frameDragger);
+        headForm.setContentPanel(phoneForm.getRootPanel());
+
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        formHead.addActionListenerForClose((ActionEvent e) -> closeWindow());
-        formHead.addActionListenerForMinimize((ActionEvent e) -> setState(Frame.ICONIFIED));
-        setContentPane(formHead.getRootPanel());
+        headForm.addActionListenerForClose((ActionEvent e) -> closeWindow());
+        headForm.addActionListenerForMinimize((ActionEvent e) -> setState(Frame.ICONIFIED));
+        setContentPane(headForm.getRootPanel());
         setLocationRelativeTo(null);
-
         setVisible(true);
-        timer = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                checkForUpdates();
-            }
-        });
-        timer.start();
 
+        timer = new Timer(2000, ((ActionEvent e)->{
+                checkForUpdates();
+        }));
+        timer.start();
 
     }
 
@@ -140,16 +135,17 @@ public class Window extends JFrame {
     }
 
     private void displayMe(Me me) {
-
+        formMain.setMyPhoto(GuiHelper.getPhoto(telegramProxy, me, true, true));
     }
 
     private void displayBuddy(Person person) {
-
+        formMain.setBuddyContact(person);
+        formMain.setBuddyPhoto(GuiHelper.getPhoto(telegramProxy, person, true, true));
+        formMain.repaint();
     }
 
     private void updateContacts() {
         Person person = contactsList.getSelectedValue();
-
     }
 
     private void updateMessages() {
@@ -169,11 +165,11 @@ public class Window extends JFrame {
         cr.setMinimumSize(new Dimension(900,630));
     }
 
-    private void initFormTel() throws IOException {
-        formTel.addActionListenerForSubmit((ActionEvent e) -> {
+    private void initPhoneForm() throws IOException {
+        phoneForm.addActionListenerForSubmit((ActionEvent e) -> {
             String telNumber;
             try {
-                telNumber = formTel.getTelNumber();
+                telNumber = phoneForm.getTelNumber();
             } catch (ParseException ex) {
                 JOptionPane.showMessageDialog(Window.this, ex.getMessage());
                 return;
@@ -196,11 +192,11 @@ public class Window extends JFrame {
                         showFormCode();
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(Window.this,"Потеряно соединение с сервером");
-                        formHead.setContentPanel(formTel.getRootPanel());
+                        headForm.setContentPanel(phoneForm.getRootPanel());
                         return;
                     }
                 } else {
-                    formHead.setContentPanel(formReg.getRootPanel());
+                    headForm.setContentPanel(registrationForm.getRootPanel());
                 }
                 telNumber = null;
             } else {
@@ -212,12 +208,12 @@ public class Window extends JFrame {
 
 
     private void showFormCode() throws IOException {
-        formCode.setLTelNumberText(telegramDAO.getPhoneNumber());
-        formHead.setContentPanel(formCode.getRootPanel());
+        codeForm.setPhoneNumberLabelText(telegramDAO.getPhoneNumber());
+        headForm.setContentPanel(codeForm.getRootPanel());
     }
 
-    private void initFromReg() throws IOException {
-        formReg.addActionListenerForSwitchAction((ActionEvent e) -> {
+    private void initRegistrationForm() throws IOException {
+        registrationForm.addActionListenerForSubmitButton((ActionEvent e) -> {
             try {
                 telegramDAO.sendCode();
                 showFormCode();
@@ -227,33 +223,23 @@ public class Window extends JFrame {
         });
     }
 
-    private void initFormCode() throws IOException {
-        formCode.addActionListenerForSwitchAction((ActionEvent e) -> {
-            String code = String.valueOf(formCode.getCodeField().getPassword());
+    private void initCodeForm() throws IOException {
+        codeForm.addActionListenerForSwitchAction((ActionEvent e) -> {
+            String code = String.valueOf(codeForm.getCodeField().getPassword());
             try {
                 if (telegramDAO.canSignIn()) {
                     telegramDAO.signIn(code);
                 } else {
-                    telegramDAO.signUp(code, formReg.getTfName().getText(), formReg.getTfSurname().getText());
+                    telegramDAO.signUp(code, registrationForm.getFirstNameField().getText(), registrationForm.getLastNameField().getText());
                 }
                 if(telegramDAO.isLoggedIn()) {
                     telegramProxy = new TelegramProxy(telegramDAO);
-                    profileForm.getBtExit().setEnabled(true);
-                    formMain.getBtGear().setEnabled(true);
-                    Person me = telegramProxy.getMe();
-                    formMain.setAvaImage(new PhotoPanel(null, true, false, 0, false));
-                    ((PhotoPanel)formMain.getAvaImage()).setImage(GuiHelper.getPhoto(telegramProxy, me, true, true));
-                    formMain.getUserName().setText(me.getFirstName()+ " " + me.getLastName());
-                    formMain.getAvaImage().revalidate();
-                    formMain.getAvaImage().repaint();
-                    formMain.revalidate();
-                    formMain.repaint();
+                    initMainForm();
                 }
-
-
-
                 switchToFormMain();
             } catch (RpcException ex) {
+                JOptionPane.showMessageDialog(Window.this, ERR_CODE);
+            } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(Window.this, ERR_CODE);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -262,11 +248,9 @@ public class Window extends JFrame {
     }
 
     private void switchToFormMain() {
-        //contactsList.getContactsList().setListData(telegramProxy.getPersons().toArray());
-        //formMain.getContactsList().setCellRenderer(new ContactItem(telegramProxy));
         contactsList.setTelegramProxy(telegramProxy);
         windowManager = new MyBufferedOverlayDialog(formMain, profileForm, addContactForm, editContactForm);
-        formHead.setContentPanel(windowManager);
+        headForm.setContentPanel(windowManager);
     }
 
     private void displayDialog(Person person) {
@@ -298,12 +282,16 @@ public class Window extends JFrame {
         return messagesForm;
     }
 
-    private void initFormMain() {
+    private void initMainForm() {
 
-        formMain = new FormMain();
+        formMain = new MainForm();
         contactsList = new ContactsList();
-        //formMain.setContactsPanel(contactsList);
+        profileForm.getBtExit().setEnabled(true);
+        formMain.getBtGear().setEnabled(true);
         formMain.setContactsPanel(contactsLayeredPane);
+        Person me = telegramProxy.getMe();
+        formMain.setMyContact(me);
+        formMain.setMyPhoto(GuiHelper.getPhoto(telegramProxy, me, true, true));
         contactsLayeredPane.add(contactsList, new Integer(0));
         contactsLayeredPane.add(plusOverlay, new Integer(1));
         plusOverlay.addActionListenerToPlusButton((ActionEvent e) -> {
@@ -317,9 +305,7 @@ public class Window extends JFrame {
         formMain.addActionListenerForEditContactButton((ActionEvent e)-> {
             windowManager.setIndex(EDIT_CONTACT_FORM);
             editContactForm.setPhoto(GuiHelper.getPhoto(telegramProxy, contactsList.getSelectedValue(), true, true));
-            editContactForm.setTel(((Contact) contactsList.getSelectedValue()).getPhoneNumber());
-            editContactForm.setContactNameFieldText(contactsList.getSelectedValue().getFirstName() + " " +
-                contactsList.getSelectedValue().getLastName());
+            editContactForm.setContactInfo(new ContactInfo((Contact) contactsList.getSelectedValue()));
 
         });
         formMain.addSendMessageListener(new ActionListener() {
@@ -373,12 +359,9 @@ public class Window extends JFrame {
     private void logOut() {
         if(telegramDAO.logOut()) {
             destroyTelegramProxy();
-            formTel.clearTelNumber();
-            formCode.clearCodeField();
-            formHead.setContentPanel(formTel.getRootPanel());
-            profileForm.getBtExit().setEnabled(false);
-            formMain.getBtGear().setEnabled(false);
-            //telegramDAO.acceptNumber(); сбросить номер в DAO ?
+            phoneForm.clearTelNumber();
+            codeForm.clearCodeField();
+            headForm.setContentPanel(phoneForm.getRootPanel());
         } else {
             JOptionPane.showMessageDialog(this,"Ошибка выхода!");
         }

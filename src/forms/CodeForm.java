@@ -11,23 +11,24 @@ import java.awt.event.ActionListener;
 /**
  * Created by Anton on 13.05.2016.
  */
-public class FormCode {
-    private JButton btSubmit;
+public class CodeForm extends ImagePanel {
+    private JButton submitButton;
     private JPasswordField codeField;
     private JPanel rootPanel;
-    private JLabel lTelNumber;
+    private JLabel phoneNumberLabel;
     private JPanel logoPanel;
     private JPanel codePanel;
-    private JPanel lockIcon;
-    private JPanel buttonPanel;
+    private JPanel lockImagePanel;
+    private JPanel submitPanel;
 
-    public FormCode() {
+    public CodeForm() {
+        super(Images.getBackground(), false, true, 0);
         codePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.white));
         codeField.setBorder(null);
     }
 
     public void addActionListenerForSwitchAction(ActionListener actionListener) {
-        btSubmit.addActionListener(actionListener);
+        submitButton.addActionListener(actionListener);
     }
 
     public JPanel getRootPanel() {
@@ -42,17 +43,17 @@ public class FormCode {
         codeField.setText("");
     }
 
-    public void setLTelNumberText(String tel) {
-        lTelNumber.setText(tel);
+    public void setPhoneNumberLabelText(String tel) {
+        phoneNumberLabel.setText(tel);
     }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        rootPanel = new ImagePanel(Images.getBackground(), false, true, 0);
+        rootPanel = this;
         logoPanel = new ImagePanel(Images.getLogoMini(), false, true, 0);
         codePanel = new JPanel();
-        lockIcon = new ImagePanel(Images.getIconLock(), false, true, 0);
+        lockImagePanel = new ImagePanel(Images.getIconLock(), false, true, 0);
         codeField = new JPasswordField();
-        btSubmit = new ExtendedImageButton(Images.getButtonBackground());
+        submitButton = new ExtendedImageButton(Images.getButtonBackground());
     }
 }

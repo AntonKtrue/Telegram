@@ -68,7 +68,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="4065c" class="javax.swing.JLabel" binding="telLabel">
+              <component id="4065c" class="javax.swing.JLabel" binding="phoneLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="10" left="0" bottom="0" right="15" weightx="0.0" weighty="0.0"/>

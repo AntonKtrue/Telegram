@@ -30,6 +30,7 @@ public class Images {
 
 //    private static BufferedImage gearIcon;
       private static BufferedImage plusImage;
+      private static BufferedImage iconEdit;
 //    private static BufferedImage magnifyingGlassIcon;
 //    private static BufferedImage pencilIcon;
 //    private static BufferedImage penIcon;
@@ -40,6 +41,12 @@ public class Images {
 //    private static BufferedImage closeOverlay;
 //    private static BufferedImage logoutIcon;
 //    private static BufferedImage blueButton;
+
+    public static BufferedImage getIconEdit() {
+        if (iconEdit == null)
+            iconEdit = loadImage("icon-edit.png");
+        return iconEdit;
+    }
 
     public static BufferedImage getBackground() {
         if (background == null)
