@@ -5,6 +5,7 @@ import components.ImageButton;
 import components.ImagePanel;
 import components.OverlayBackground;
 import resources.Images;
+import utils.PhoneFormat;
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
@@ -36,12 +37,9 @@ public class AddContactForm extends OverlayBackground {
         rowPanel3.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.white));
         firstNameField.setBorder(null);
         lastNameField.setBorder(null);
+        phoneField.setBorder(null);
         try {
-            MaskFormatter telMask = new MaskFormatter("+7 ### ### ## ##");
-            DefaultFormatterFactory factory = new DefaultFormatterFactory(telMask);
-            telMask.setPlaceholderCharacter(' ');
-            phoneField.setFormatterFactory(factory);
-            phoneField.setBorder(null);
+            phoneField.setFormatterFactory(PhoneFormat.getRussianPhoneFormat());
         } catch (ParseException e) {
             e.printStackTrace();
         }
