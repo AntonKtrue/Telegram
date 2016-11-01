@@ -1,6 +1,10 @@
 package components;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 
@@ -11,6 +15,7 @@ public class ExtendedImageButton extends ImageButton {
 
     private int inset = 5;
 
+
     public ExtendedImageButton(BufferedImage image) {
         this(image, GuiHelper.makeGray(image));
     }
@@ -18,6 +23,8 @@ public class ExtendedImageButton extends ImageButton {
     public ExtendedImageButton(BufferedImage image, BufferedImage disabledImage) {
         super(image, false, disabledImage, false);
     }
+
+
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -48,6 +55,9 @@ public class ExtendedImageButton extends ImageButton {
 
         graphics.setColor(getForeground());
         graphics.setFont(getFont());
+
+
+
 
         if (!text.isEmpty()) {
             graphics.drawString(text, x, y);

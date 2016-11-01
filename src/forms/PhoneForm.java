@@ -1,5 +1,6 @@
 package forms;
 
+import components.AntiAliasedImagButton;
 import components.ExtendedImageButton;
 import components.ImagePanel;
 import resources.Fonts;
@@ -60,7 +61,7 @@ public class PhoneForm extends ImagePanel {
         phoneNumberField = new JFormattedTextField();
         phonePanel = new JPanel();
         phoneImagePanel = new ImagePanel(Images.getIconPhone(),false,true,0);
-        submitButton = new ExtendedImageButton(Images.getButtonBackground());
+        submitButton = new AntiAliasedImagButton(Images.getButtonBackground());
     }
 
 }

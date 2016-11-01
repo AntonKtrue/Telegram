@@ -83,10 +83,12 @@
           <background color="-9737365"/>
           <borderPainted value="false"/>
           <contentAreaFilled value="false"/>
+          <doubleBuffered value="true"/>
           <focusPainted value="false"/>
           <font name="Open Sans Light" size="24"/>
           <foreground color="-1"/>
           <label value="ПРОДОЛЖИТЬ"/>
+          <margin top="0" left="0" bottom="0" right="0"/>
           <maximumSize width="330" height="58"/>
           <minimumSize width="330" height="58"/>
           <opaque value="false"/>

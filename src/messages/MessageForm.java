@@ -23,6 +23,9 @@ public class MessageForm extends JPanel {
         this.alignment = alignment;
         setLayout(boxLayout);
 
+//        this.setOpaque(true);
+//        this.setBackground(Color.yellow);
+
         textPane.setAlignmentX(0.05f);
         add(textPane);
         dateLabel.setAlignmentX(0.05f);

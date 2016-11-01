@@ -85,7 +85,7 @@
           </grid>
         </children>
       </grid>
-      <grid id="2a7ef" binding="rightPanel" layout-manager="GridBagLayout">
+      <grid id="2a7ef" binding="rightPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties>
           <background color="-1"/>
@@ -94,10 +94,7 @@
         <border type="none"/>
         <children>
           <grid id="f0b05" binding="buddyPanel" custom-create="true" layout-manager="GridBagLayout">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
+            <constraints border-constraint="North"/>
             <properties>
               <background color="-1"/>
               <foreground color="-1"/>
@@ -121,21 +118,15 @@
             </children>
           </grid>
           <grid id="87e5c" binding="messagesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="1.0"/>
-            </constraints>
+            <constraints border-constraint="Center"/>
             <properties>
-              <background color="-1"/>
+              <background color="-16711934"/>
             </properties>
             <border type="none"/>
             <children/>
           </grid>
           <grid id="f7583" binding="messagePanel" layout-manager="GridBagLayout">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="20" bottom="20" right="20" weightx="1.0" weighty="0.0"/>
-            </constraints>
+            <constraints border-constraint="South"/>
             <properties/>
             <border type="none"/>
             <children>

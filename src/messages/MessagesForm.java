@@ -25,6 +25,8 @@ public class MessagesForm extends JPanel {
 
     private int messgesCount = 100;
     private final int width = 150;
+
+
     public MessagesForm(TelegramProxy telegramProxy) {
         this(telegramProxy, null);
     }
@@ -35,7 +37,14 @@ public class MessagesForm extends JPanel {
 
     public MessagesForm(TelegramProxy telegramProxy, Person person) {
         this.telegramProxy = telegramProxy;
+//        this.setOpaque(true);
+//        this.setBackground(Color.green);
+//        scrollPane.setOpaque(true);
+//        scrollPane.setBackground(Color.red);
+//        scrollPanel.setOpaque(true);
+//        scrollPanel.setBackground(Color.blue);
         display(person);
+
     }
 
     public void display(Person person) {
@@ -43,8 +52,21 @@ public class MessagesForm extends JPanel {
         this.person = person;
 
         scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
-        scrollPanel.add(Box.createVerticalGlue());
+        scrollPanel.add(Box.createGlue());
 
+//        JPanel panel = new JPanel();
+//        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+//        panel.add(Box.createGlue());
+//
+//        JButton but1 = new JButton();
+//        but1.setText("button1");
+//        panel.add(but1);
+//        JButton but2 = new JButton();
+//        but2.setText("button2");
+//        panel.add(but2);
+//        scrollPanel.add(panel);
+//        scrollPanel.add(but1);
+ //       scrollPanel.add(but2);
         if(person == null)
             return;
 
@@ -54,7 +76,7 @@ public class MessagesForm extends JPanel {
                 @Override
                 public Dimension getMaximumSize() {
                     Dimension maxSize = super.getMaximumSize();
-                    Dimension prefSize = super.getMaximumSize();
+                    Dimension prefSize = super.getPreferredSize();
                     return new Dimension(maxSize.width, prefSize.height);
                 }
             };
@@ -78,6 +100,7 @@ public class MessagesForm extends JPanel {
             panel.setLayout(new FlowLayout(alignment));
             panel.add(new MessageForm(message.getText(), dateFormat.format(message.getDate()), width, color, fontColor, alignment));
             scrollPanel.add(panel);
+
         }
 
         scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
