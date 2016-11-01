@@ -55,6 +55,8 @@ public class EditContactorm extends OverlayBackground {
 
 
 
+
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
         rootPanel = this;
@@ -80,5 +82,13 @@ public class EditContactorm extends OverlayBackground {
 
     public void addActionListenerForBackButton(ActionListener listener) {
         backButton.addActionListener(listener);
+    }
+
+    public void addActionListenerForSaveButton(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+
+    public void addActionListenerForRemove(ActionListener listener) {
+        deleteContact.addActionListener(listener);
     }
 }

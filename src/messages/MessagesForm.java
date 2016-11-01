@@ -43,7 +43,7 @@ public class MessagesForm extends JPanel {
         this.person = person;
 
         scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
-        scrollPanel.add(Box.createGlue());
+        scrollPanel.add(Box.createVerticalGlue());
 
         if(person == null)
             return;

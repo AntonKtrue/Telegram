@@ -4,7 +4,6 @@ import components.ExtendedImageButton;
 import components.ImageButton;
 import components.ImagePanel;
 import components.OverlayBackground;
-import resources.Fonts;
 import resources.Images;
 
 import javax.swing.*;
@@ -27,7 +26,7 @@ public class AddContactForm extends OverlayBackground {
     private JPasswordField passwordField1;
     private JButton saveButton;
     private JPanel telIcon;
-    private JFormattedTextField ftfTelNumber;
+    private JFormattedTextField phoneField;
     private JTextField firstNameField;
     private JTextField lastNameField;
 
@@ -41,8 +40,8 @@ public class AddContactForm extends OverlayBackground {
             MaskFormatter telMask = new MaskFormatter("+7 ### ### ## ##");
             DefaultFormatterFactory factory = new DefaultFormatterFactory(telMask);
             telMask.setPlaceholderCharacter(' ');
-            ftfTelNumber.setFormatterFactory(factory);
-            ftfTelNumber.setBorder(null);
+            phoneField.setFormatterFactory(factory);
+            phoneField.setBorder(null);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -57,7 +56,7 @@ public class AddContactForm extends OverlayBackground {
         telIcon = new ImagePanel(Images.getIconPhone(),false,true,0);
         backButton = new ImageButton(Images.getBackIcon());
         saveButton = new ExtendedImageButton(Images.getButtonBackground());
-        ftfTelNumber = new JFormattedTextField();
+        phoneField = new JFormattedTextField();
         firstNameField = new JTextField();
         lastNameField = new JTextField();
 
@@ -65,5 +64,16 @@ public class AddContactForm extends OverlayBackground {
 
     public void addActionListenerForBackButton(ActionListener listener) {
         backButton.addActionListener(listener);
+    }
+
+    public void addActionListenerForSaveButton(ActionListener listener) {
+        saveButton.addActionListener(listener);
+    }
+
+    public ContactInfo getContactInfo() {
+
+        return new ContactInfo(phoneField.getText().trim(),
+                firstNameField.getText(),
+                lastNameField.getText());
     }
 }

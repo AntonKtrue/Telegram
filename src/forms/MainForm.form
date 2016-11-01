@@ -89,6 +89,7 @@
         <constraints border-constraint="Center"/>
         <properties>
           <background color="-1"/>
+          <opaque value="true"/>
         </properties>
         <border type="none"/>
         <children>
@@ -98,8 +99,10 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <background color="-1"/>
               <foreground color="-1"/>
               <minimumSize width="300" height="47"/>
+              <opaque value="false"/>
               <preferredSize width="300" height="47"/>
             </properties>
             <border type="none"/>

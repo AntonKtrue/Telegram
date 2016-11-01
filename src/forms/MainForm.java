@@ -85,7 +85,13 @@ public class MainForm extends JPanel {
     }
 
     public void setBuddyContact(Person person) {
-        buddyName = person.getFirstName() + " " + person.getLastName();
+        if(person != null) {
+            btGear.setEnabled(true);
+            buddyName = person.getFirstName() + " " + person.getLastName();
+        } else {
+            btGear.setEnabled(false);
+        }
+
     }
 
     public void setBuddyPhoto(BufferedImage image) {
@@ -131,16 +137,15 @@ public class MainForm extends JPanel {
                 int rightMostPoint = 2;
 
                 if (buddyPhoto != null) {
-                    int inset = 2;
+                    int inset = 10;
                     BufferedImage image = buddyPhoto;
                     rightMostPoint = GuiHelper.drawImage(graphics, image, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight(), inset, false);
                 }
 
                 if (buddyName != null) {
-
-                    int inset = 10;
-                    Font font = Fonts.getOpenSansRegular().deriveFont(Font.ITALIC, 18);
-                    Color color = Color.cyan;
+                    int inset = 5;
+                    Font font = Fonts.getOpenSansRegular().deriveFont(Font.TRUETYPE_FONT, 14);
+                    Color color = Color.decode("#949494");
                     String text = buddyName;
                     GuiHelper.drawText(graphics, text, color, font, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight(), inset, false);
                 }
