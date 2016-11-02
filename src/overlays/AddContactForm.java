@@ -1,15 +1,10 @@
 package overlays;
 
-import components.ExtendedImageButton;
-import components.ImageButton;
-import components.ImagePanel;
-import components.OverlayBackground;
+import components.*;
 import resources.Images;
 import utils.PhoneFormat;
 
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -53,7 +48,7 @@ public class AddContactForm extends OverlayBackground {
         rowPanel3 = new JPanel();
         telIcon = new ImagePanel(Images.getIconPhone(),false,true,0);
         backButton = new ImageButton(Images.getBackIcon());
-        saveButton = new ExtendedImageButton(Images.getButtonBackground());
+        saveButton = new AntiAliasedImageButton(Images.getButtonBackground());
         phoneField = new JFormattedTextField();
         firstNameField = new JTextField();
         lastNameField = new JTextField();

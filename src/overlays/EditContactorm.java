@@ -1,16 +1,9 @@
 package overlays;
 
-import components.ExtendedImageButton;
-import components.GuiHelper;
-import components.ImageButton;
-import components.OverlayBackground;
-import org.javagram.dao.Contact;
-import org.javagram.dao.Person;
-import org.javagram.dao.proxy.TelegramProxy;
+import components.*;
 import resources.Images;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -76,7 +69,7 @@ public class EditContactorm extends OverlayBackground {
         deleteContact = new JButton();
         contactNameField = new JTextField();
         backButton = new ImageButton(Images.getBackIcon());
-        saveButton = new ExtendedImageButton(Images.getButtonBackground());
+        saveButton = new AntiAliasedImageButton(Images.getButtonBackground());
 
     }
 

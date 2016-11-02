@@ -117,40 +117,66 @@
               </component>
             </children>
           </grid>
-          <grid id="87e5c" binding="messagesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="87e5c" binding="messagesPanel" layout-manager="GridBagLayout">
             <constraints border-constraint="Center"/>
             <properties>
-              <background color="-16711934"/>
+              <background color="-1"/>
+              <foreground color="-1"/>
+              <opaque value="false"/>
             </properties>
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="f7583" binding="messagePanel" layout-manager="GridBagLayout">
+          <grid id="f7583" binding="messagePanel" custom-create="true" layout-manager="GridBagLayout">
             <constraints border-constraint="South"/>
-            <properties/>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-16720129"/>
+              <minimumSize width="147" height="63"/>
+              <opaque value="false"/>
+              <preferredSize width="130" height="90"/>
+            </properties>
             <border type="none"/>
             <children>
               <scrollpane id="27653" binding="messageTextScrollPane">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="0.0"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="30" left="39" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <background color="-570034"/>
+                  <foreground color="-570034"/>
+                  <minimumSize width="17" height="35"/>
+                  <opaque value="false"/>
+                  <preferredSize width="0" height="35"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <component id="f369d" class="javax.swing.JTextArea" binding="messageTextArea">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <background color="-2039584"/>
+                      <caretColor color="-11447983"/>
+                      <disabledTextColor color="-9737365"/>
+                      <font name="Open Sans" size="14"/>
+                      <foreground color="-11447983"/>
+                      <opaque value="true"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
-              <component id="e28e3" class="javax.swing.JButton" binding="sendMessageButton">
+              <component id="e28e3" class="javax.swing.JButton" binding="sendMessageButton" custom-create="true">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="25" left="0" bottom="0" right="34" weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <margin top="0" left="0" bottom="0" right="0"/>
+                  <maximumSize width="62" height="45"/>
+                  <minimumSize width="62" height="45"/>
+                  <opaque value="false"/>
+                  <preferredSize width="62" height="45"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>

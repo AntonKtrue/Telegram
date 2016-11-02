@@ -1,10 +1,6 @@
 package forms;
 
-import components.GuiHelper;
-import components.ImageButton;
-import components.ImagePanel;
-import components.PhotoPanel;
-import org.javagram.dao.Contact;
+import components.*;
 import org.javagram.dao.Person;
 import resources.Fonts;
 import resources.Images;
@@ -44,10 +40,23 @@ public class MainForm extends JPanel {
     private String buddyName;
     private String myName;
 
+    private GridBagConstraints messagesFormConstraints;
+    {
+        messagesFormConstraints = new GridBagConstraints();
+        messagesFormConstraints.insets = new Insets(0,15,0,15);
+        messagesFormConstraints.weightx = 1.0;
+        messagesFormConstraints.weighty = 1.0;
+        messagesFormConstraints.fill = GridBagConstraints.BOTH;
+    }
+
     public MainForm() {
         contactsPanel.add(new JPanel());
-        messagesPanel.add(new JPanel());
-
+        messagesPanel.add(new JPanel(),messagesFormConstraints);
+        messagesPanel.getComponent(0).setBackground(Color.white);
+        messageTextScrollPane.setBorder(null);
+        messageTextScrollPane.setBackground(Color.white);
+        messageTextScrollPane.setOpaque(true);
+        messagesPanel.repaint();
     }
 
     public Component getContactsPanel() {
@@ -63,14 +72,9 @@ public class MainForm extends JPanel {
         return btGear;
     }
 
-    public JPanel getMessagesPanel() {
-        return messagesPanel;
+    public Component getMessagesPanel() {
+        return messagesPanel.getComponent(0);
     }
-
-      public JLabel getMeText() {
-        return meText;
-    }
-
 
     public void addActionListenerForGearButton(ActionListener actionListener) {
         btGear.addActionListener(actionListener);
@@ -104,12 +108,18 @@ public class MainForm extends JPanel {
         btGear = new ImageButton(Images.getGearIcon());
         buddyEditButton = new ImageButton(Images.getIconEdit());
         logoMicro = new ImagePanel(Images.getLogoMicro(), false, true, 0);
-
         topMenu = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                Graphics2D graphics2D = (Graphics2D) g;
 
+                //Set  anti-alias!
+                graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                // Set anti-alias for text
+                graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 int leftMostPoint = btGear.getX();
                 int rightMostPoint = 12;
 
@@ -118,20 +128,27 @@ public class MainForm extends JPanel {
                     Font font = Fonts.getOpenSansRegular().deriveFont(Font.TRUETYPE_FONT, 14);
                     Color color = Color.decode("#94dbf7");
                     String text = myName;
-                    leftMostPoint = GuiHelper.drawText(g, text, color, font, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight() , inset, true);
+                    leftMostPoint = GuiHelper.drawText(graphics2D, text, color, font, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight() , inset, true);
                 }
                 if (myPhoto != null) {
                     int inset = 5;
                     BufferedImage image = myPhoto;
-                    GuiHelper.drawImage(g, image, rightMostPoint, 0 , leftMostPoint - rightMostPoint, this.getHeight(), inset, true);
+                    GuiHelper.drawImage(graphics2D, image, rightMostPoint, 0 , leftMostPoint - rightMostPoint, this.getHeight(), inset, true);
                 }
             }
         };
-
         buddyPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics graphics) {
                 super.paintComponent(graphics);
+                Graphics2D graphics2D = (Graphics2D) graphics;
+
+                //Set  anti-alias!
+                graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                // Set anti-alias for text
+                graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
                 int leftMostPoint = buddyEditButton.getX();
                 int rightMostPoint = 2;
@@ -139,7 +156,7 @@ public class MainForm extends JPanel {
                 if (buddyPhoto != null) {
                     int inset = 10;
                     BufferedImage image = buddyPhoto;
-                    rightMostPoint = GuiHelper.drawImage(graphics, image, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight(), inset, false);
+                    rightMostPoint = GuiHelper.drawImage(graphics2D, image, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight(), inset, false);
                 }
 
                 if (buddyName != null) {
@@ -147,17 +164,38 @@ public class MainForm extends JPanel {
                     Font font = Fonts.getOpenSansRegular().deriveFont(Font.TRUETYPE_FONT, 14);
                     Color color = Color.decode("#949494");
                     String text = buddyName;
-                    GuiHelper.drawText(graphics, text, color, font, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight(), inset, false);
+                    GuiHelper.drawText(graphics2D, text, color, font, rightMostPoint, 0, leftMostPoint - rightMostPoint, this.getHeight(), inset, false);
                 }
 
             }
         };
 
+        messagePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                int RADIUS = 5;
+                Graphics2D graphics2D = (Graphics2D) g;
+                //Set  anti-alias!
+                graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                // Set anti-alias for text
+                graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                graphics2D.setColor(Color.decode("#e0e0e0")); //e0e0e0
+                graphics2D.fillRoundRect(messageTextScrollPane.getX()-5, messageTextScrollPane.getY()-5, messageTextScrollPane.getWidth()+sendMessageButton.getWidth(), sendMessageButton.getHeight(), RADIUS, RADIUS);
+
+            }
+        };
+        //messageTextScrollPane = new JScrollPane();
+        messageTextArea = new JTextArea();
+        sendMessageButton = new AntiAliasedImageButton(Images.getSendMessageImage());
+
     }
 
     public void setMessagesPanel(Component messagesPanel) {
         this.messagesPanel.removeAll();
-        this.messagesPanel.add(messagesPanel);
+        this.messagesPanel.add(messagesPanel, messagesFormConstraints);
     }
 
     public void addSendMessageListener(ActionListener listener) {

@@ -1,6 +1,6 @@
 package overlays;
 
-import components.ExtendedImageButton;
+import components.AntiAliasedImageButton;
 import resources.Images;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class PlusOverlay extends JPanel {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         rootPanel = this;
-        plusButton = new ExtendedImageButton(Images.getPlus());
+        plusButton = new AntiAliasedImageButton(Images.getPlus());
     }
 
     public void addActionListenerToPlusButton(ActionListener actionListener) {

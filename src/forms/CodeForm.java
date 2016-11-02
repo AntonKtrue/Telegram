@@ -1,6 +1,6 @@
 package forms;
 
-import components.ExtendedImageButton;
+import components.AntiAliasedImageButton;
 import components.ImagePanel;
 import resources.Images;
 
@@ -54,6 +54,6 @@ public class CodeForm extends ImagePanel {
         codePanel = new JPanel();
         lockImagePanel = new ImagePanel(Images.getIconLock(), false, true, 0);
         codeField = new JPasswordField();
-        submitButton = new ExtendedImageButton(Images.getButtonBackground());
+        submitButton = new AntiAliasedImageButton(Images.getButtonBackground());
     }
 }

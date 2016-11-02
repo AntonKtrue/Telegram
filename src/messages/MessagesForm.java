@@ -23,8 +23,11 @@ public class MessagesForm extends JPanel {
     private TelegramProxy telegramProxy;
     private Person person;
 
+
+
     private int messgesCount = 100;
     private final int width = 150;
+
 
 
     public MessagesForm(TelegramProxy telegramProxy) {
@@ -37,13 +40,9 @@ public class MessagesForm extends JPanel {
 
     public MessagesForm(TelegramProxy telegramProxy, Person person) {
         this.telegramProxy = telegramProxy;
-//        this.setOpaque(true);
-//        this.setBackground(Color.green);
-//        scrollPane.setOpaque(true);
-//        scrollPane.setBackground(Color.red);
-//        scrollPanel.setOpaque(true);
-//        scrollPanel.setBackground(Color.blue);
+        this.scrollPane.setBorder(null);
         display(person);
+
 
     }
 
@@ -54,19 +53,6 @@ public class MessagesForm extends JPanel {
         scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
         scrollPanel.add(Box.createGlue());
 
-//        JPanel panel = new JPanel();
-//        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-//        panel.add(Box.createGlue());
-//
-//        JButton but1 = new JButton();
-//        but1.setText("button1");
-//        panel.add(but1);
-//        JButton but2 = new JButton();
-//        but2.setText("button2");
-//        panel.add(but2);
-//        scrollPanel.add(panel);
-//        scrollPanel.add(but1);
- //       scrollPanel.add(but2);
         if(person == null)
             return;
 
@@ -98,14 +84,16 @@ public class MessagesForm extends JPanel {
                 fontColor = "green";
             }
             panel.setLayout(new FlowLayout(alignment));
+            panel.setOpaque(false);
             panel.add(new MessageForm(message.getText(), dateFormat.format(message.getDate()), width, color, fontColor, alignment));
+
             scrollPanel.add(panel);
-
         }
-
         scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+        System.out.println(scrollPane.getVerticalScrollBar().getMaximum());
 
     }
+
 
 
     private void createUIComponents() {

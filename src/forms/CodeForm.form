@@ -85,8 +85,8 @@
       </grid>
       <component id="62767" class="javax.swing.JButton" binding="submitButton" custom-create="true">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="20" left="0" bottom="0" right="0" weightx="1.0" weighty="0.0"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="0" bottom="100" right="0" weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
           <actionCommand value=""/>
@@ -95,6 +95,7 @@
           <contentAreaFilled value="false"/>
           <font name="Open Sans Light" size="24"/>
           <foreground color="-1"/>
+          <margin top="0" left="0" bottom="0" right="0"/>
           <maximumSize width="330" height="58"/>
           <minimumSize width="330" height="58"/>
           <preferredSize width="330" height="58"/>

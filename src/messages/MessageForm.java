@@ -30,6 +30,7 @@ public class MessageForm extends JPanel {
         add(textPane);
         dateLabel.setAlignmentX(0.05f);
         add(dateLabel);
+        setBackground(Color.white);
 
         textPane.setContentType("text/html");
         textPane.setSize(width, Short.MAX_VALUE);
@@ -49,7 +50,14 @@ public class MessageForm extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(color);
-        g.fillRoundRect(textPane.getX()+MARGIN, textPane.getY(), textPane.getWidth()-MARGIN*2, textPane.getHeight(), RADIUS, RADIUS);
+        Graphics2D graphics2D = (Graphics2D) g;
+        //Set  anti-alias!
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        // Set anti-alias for text
+        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics2D.fillRoundRect(textPane.getX()+MARGIN, textPane.getY(), textPane.getWidth()-MARGIN*2, textPane.getHeight(), RADIUS, RADIUS);
         Polygon polygon = new Polygon();
         //g.setColor(Color.black);
         switch (alignment) {
@@ -57,13 +65,13 @@ public class MessageForm extends JPanel {
                 polygon.addPoint(textPane.getX()+MARGIN,textPane.getY() + textPane.getHeight()/2 + 5);
                 polygon.addPoint(textPane.getX()+MARGIN/2,textPane.getY() + textPane.getHeight()/2);
                 polygon.addPoint(textPane.getX()+MARGIN,textPane.getY() + textPane.getHeight()/2 - 5);
-                g.fillPolygon(polygon);
+                graphics2D.fillPolygon(polygon);
                 break;
             case FlowLayout.RIGHT:
                 polygon.addPoint(textPane.getWidth()-MARGIN,textPane.getY() + textPane.getHeight()/2 + 5);
                 polygon.addPoint(textPane.getWidth()-MARGIN/2,textPane.getY() + textPane.getHeight()/2);
                 polygon.addPoint(textPane.getWidth()-MARGIN,textPane.getY() + textPane.getHeight()/2 - 5);
-                g.fillPolygon(polygon);
+                graphics2D.fillPolygon(polygon);
                 break;
         }
 

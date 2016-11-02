@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 /**
  * Created by user on 01.11.16.
  */
-public class AntiAliasedImagButton extends ImageButton {
+public class AntiAliasedImageButton extends ImageButton {
 
     private int inset = 5;
     //private int pressOffset = 0;
-    public AntiAliasedImagButton(BufferedImage image) {
+    public AntiAliasedImageButton(BufferedImage image) {
         super(image);
 //        addMouseListener(new MouseAdapter() {
 //            @Override
@@ -30,7 +30,6 @@ public class AntiAliasedImagButton extends ImageButton {
         super.paintComponent(graphics);
 
         Graphics2D graphics2D = (Graphics2D) graphics;
-
         //Set  anti-alias!
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);

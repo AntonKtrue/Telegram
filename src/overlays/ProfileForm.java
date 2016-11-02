@@ -1,6 +1,6 @@
 package overlays;
 
-import components.ExtendedImageButton;
+import components.AntiAliasedImageButton;
 import components.ImageButton;
 import components.OverlayBackground;
 import org.javagram.dao.proxy.TelegramProxy;
@@ -48,7 +48,7 @@ public class ProfileForm extends OverlayBackground {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         rootPanel = this;
-        btSubmit = new ExtendedImageButton(Images.getButtonBackground());
+        btSubmit = new AntiAliasedImageButton(Images.getButtonBackground());
         btBack = new ImageButton(Images.getBackIcon());
         tfName = new JTextField();
         tfSurname = new JTextField();

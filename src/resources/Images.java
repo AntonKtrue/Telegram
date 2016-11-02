@@ -26,7 +26,7 @@ public class Images {
 
 //    private static BufferedImage background;
 //    private static BufferedImage logo;
-//    private static BufferedImage sendMessageImage;
+      private static BufferedImage sendMessageImage;
 
 //    private static BufferedImage gearIcon;
       private static BufferedImage plusImage;
@@ -103,12 +103,12 @@ public class Images {
 //        return logo;
 //    }
 //
-//    public synchronized static BufferedImage getSendMessageImage() {
-//        if (sendMessageImage == null)
-//            sendMessageImage = loadImage("button-send.png");
-//        return sendMessageImage;
-//    }
-//
+    public synchronized static BufferedImage getSendMessageImage() {
+        if (sendMessageImage == null)
+            sendMessageImage = loadImage("button-send.png");
+        return sendMessageImage;
+    }
+
     public static BufferedImage getGearIcon() {
         if(gearIcon == null)
             gearIcon = loadImage("icon-settings.png");
