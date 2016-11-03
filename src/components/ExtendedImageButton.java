@@ -23,6 +23,21 @@ public class ExtendedImageButton extends ImageButton {
     public ExtendedImageButton(BufferedImage image, BufferedImage disabledImage) {
         super(image, false, disabledImage, false);
     }
+    public ExtendedImageButton(Image image, Image disabledImage) {
+        this(image, false, disabledImage, false);
+    }
+    public ExtendedImageButton(Image image, boolean keepRatio, Image disabledImage, boolean keepDisabledRatio) {
+        super(image, keepRatio, assureImages(disabledImage, image), keepDisabledRatio);
+    }
+
+    private static Image assureImages(Image disabledImage, Image image) {
+        if(image == null)
+            return null;
+        else if(disabledImage == null)
+            return GuiHelper.makeGray(image);
+        else
+            return disabledImage;
+    }
 
 
 

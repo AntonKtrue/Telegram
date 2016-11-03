@@ -2,60 +2,108 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="contacts.ContactItem">
   <grid id="27dc6" binding="rootPanel" custom-create="true" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="515" height="238"/>
+      <xy x="20" y="20" width="515" height="107"/>
     </constraints>
     <properties>
-      <preferredSize width="0" height="100"/>
+      <minimumSize width="250" height="63"/>
+      <preferredSize width="250" height="63"/>
     </properties>
     <border type="empty">
       <size top="5" left="5" bottom="5" right="5"/>
     </border>
     <children>
-      <grid id="30bfc" binding="avaPanel" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="30bfc" binding="avaPanel" custom-create="true" layout-manager="GridBagLayout">
         <constraints>
-          <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="5" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <minimumSize width="80" height="80"/>
+          <inheritsPopupMenu value="false"/>
+          <maximumSize width="41" height="41"/>
+          <minimumSize width="41" height="41"/>
           <opaque value="true"/>
-          <preferredSize width="80" height="80"/>
+          <preferredSize width="41" height="41"/>
         </properties>
         <border type="none"/>
         <children/>
       </grid>
-      <component id="7ab61" class="javax.swing.JLabel" binding="contactName">
+      <grid id="7b46b" binding="infoPanel" layout-manager="GridBagLayout">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="5" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <font name="Open Sans" size="16" style="1"/>
-          <foreground color="-13684945"/>
-          <horizontalAlignment value="10"/>
-          <horizontalTextPosition value="11"/>
-          <minimumSize width="300" height="21"/>
-          <text value="Label"/>
-        </properties>
-      </component>
-      <component id="4ea38" class="javax.swing.JTextPane" binding="lastMessage">
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="10" fill="0" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-          <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <font name="Open Sans" size="12"/>
-          <foreground color="-13684945"/>
-          <minimumSize width="300" height="35"/>
+          <minimumSize width="140" height="63"/>
           <opaque value="false"/>
-          <preferredSize width="300" height="35"/>
-          <selectionEnd value="17"/>
-          <selectionStart value="17"/>
-          <text value="last message text"/>
+          <preferredSize width="140" height="63"/>
         </properties>
-      </component>
+        <border type="none"/>
+        <children>
+          <component id="7ab61" class="javax.swing.JLabel" binding="contactName">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <font name="Open Sans" size="16" style="1"/>
+              <foreground color="-13684945"/>
+              <horizontalAlignment value="10"/>
+              <horizontalTextPosition value="11"/>
+              <maximumSize width="140" height="18"/>
+              <minimumSize width="140" height="18"/>
+              <preferredSize width="140" height="18"/>
+              <requestFocusEnabled value="false"/>
+              <text value="Label"/>
+              <verticalTextPosition value="3"/>
+            </properties>
+          </component>
+          <component id="4ea38" class="javax.swing.JTextPane" binding="lastMessage">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+              <gridbag weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <font name="Open Sans" size="12"/>
+              <foreground color="-13684945"/>
+              <maximumSize width="140" height="20"/>
+              <minimumSize width="140" height="20"/>
+              <opaque value="false"/>
+              <preferredSize width="140" height="20"/>
+              <selectionEnd value="17"/>
+              <selectionStart value="17"/>
+              <text value="last message text"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="9e23d" binding="timePanel" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="0" bottom="0" right="5" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <maximumSize width="50" height="30"/>
+          <minimumSize width="50" height="30"/>
+          <opaque value="false"/>
+          <preferredSize width="50" height="30"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="fc4f6" class="javax.swing.JLabel" binding="timeLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <font name="Open Sans" size="8"/>
+              <foreground color="-5197648"/>
+              <text value="цигиль"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

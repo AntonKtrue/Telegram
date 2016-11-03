@@ -1,9 +1,8 @@
 
-import components.GuiHelper;
+import components.BlueButton;
 import contacts.ContactsList;
 import forms.*;
 
-import jdk.nashorn.internal.scripts.JO;
 import messages.MessagesForm;
 import org.javagram.dao.*;
 import org.javagram.dao.Dialog;
@@ -13,19 +12,23 @@ import org.javagram.dao.proxy.changes.UpdateChanges;
 import org.telegram.api.engine.RpcException;
 import overlays.*;
 
+import resources.Images;
 import utils.ComponentResizer;
 import utils.ComponentResizerExtended;
 import utils.FrameDragger;
+import utils.Undecorated;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Objects;
+import java.util.*;
 
 
 /**
@@ -140,7 +143,7 @@ public class Window extends JFrame {
             mainForm.setMyPhoto(null);
         } else {
             mainForm.setMyContact(me);
-            mainForm.setMyPhoto(GuiHelper.getPhoto(telegramProxy, me, true, true));
+            mainForm.setMyPhoto(Helper.getPhoto(telegramProxy, me, true, true));
         }
 
     }
@@ -151,7 +154,7 @@ public class Window extends JFrame {
             mainForm.setBuddyPhoto(null);
         } else {
             mainForm.setBuddyContact(person);
-            mainForm.setBuddyPhoto(GuiHelper.getPhoto(telegramProxy, person, true, true));
+            mainForm.setBuddyPhoto(Helper.getPhoto(telegramProxy, person, true, true));
         }
         mainForm.repaint();
     }
@@ -190,7 +193,7 @@ public class Window extends JFrame {
             try {
                 telNumber = phoneForm.getTelNumber();
             } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(Window.this, ex.getMessage());
+                showErrorMessage(ex.getMessage(), "Ошибка!");
                 return;
             }
 
@@ -198,7 +201,7 @@ public class Window extends JFrame {
                 try {
                     telegramDAO.acceptNumber(telNumber);
                 } catch (RpcException ex) {
-                    JOptionPane.showMessageDialog(Window.this, ERR_TEL);
+                    showErrorMessage(ERR_TEL, "Ошибка!");
                     return;
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -210,7 +213,7 @@ public class Window extends JFrame {
                         telegramDAO.sendCode();
                         showFormCode();
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(Window.this,"Потеряно соединение с сервером");
+                        showInformationMessage("Потеряно соединение с сервером","Статус соединения");
                         headForm.setContentPanel(phoneForm.getRootPanel());
                         return;
                     }
@@ -219,7 +222,7 @@ public class Window extends JFrame {
                 }
                 telNumber = null;
             } else {
-                JOptionPane.showMessageDialog(Window.this, ERR_TEL);
+                showErrorMessage(ERR_TEL, "Ошибка!");
             }
         });
     }
@@ -256,9 +259,9 @@ public class Window extends JFrame {
                     timer.start();
                 }
             } catch (RpcException ex) {
-                JOptionPane.showMessageDialog(Window.this, ERR_CODE);
+                showWarningMessage(ERR_CODE,"Внимание!");
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(Window.this, ERR_CODE);
+                showWarningMessage(ERR_CODE,"Внимание!");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -301,7 +304,7 @@ public class Window extends JFrame {
             mainForm.getMessagesPanel().repaint();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Проблема соединения с сервером");
+            showWarningMessage("Проблема соединения с сервером","Внимание!");
         }
     }
 
@@ -332,6 +335,7 @@ public class Window extends JFrame {
         contactsLayeredPane.add(contactsList, new Integer(0));
         contactsLayeredPane.add(plusOverlay, new Integer(1));
         plusOverlay.addActionListenerToPlusButton((ActionEvent e) -> {
+
             windowManager.setIndex(ADD_CONTACT_FORM);
         });
 
@@ -341,10 +345,18 @@ public class Window extends JFrame {
         });
         mainForm.addActionListenerForEditContactButton((ActionEvent e)-> {
             windowManager.setIndex(EDIT_CONTACT_FORM);
-            editContactForm.setPhoto(GuiHelper.getPhoto(telegramProxy, contactsList.getSelectedValue(), true, true));
+            editContactForm.setPhoto(Helper.getPhoto(telegramProxy, contactsList.getSelectedValue(), true, true));
             editContactForm.setContactInfo(new ContactInfo((Contact) contactsList.getSelectedValue()));
 
         });
+
+        mainForm.addSearchEventListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                searchFor(mainForm.getSearchText());
+            }
+        });
+
         mainForm.addSendMessageListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -357,7 +369,7 @@ public class Window extends JFrame {
                         mainForm.setMessageText("");
                         checkForUpdates(true);
                     } catch (Exception e) {
-                        JOptionPane.showMessageDialog(mainForm, "Не могу отправить сообщение");
+                        showWarningMessage("Не могу отправить сообщение", "Внимание!");
                     }
                 }
             }
@@ -380,7 +392,6 @@ public class Window extends JFrame {
             //Какой метод реализует account.updateUsername или его нужно самому реализовать ?
         });
         profileForm.addActionListenerToExitButton((ActionEvent e)-> {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!НАЧАЛО ОПЕРАЦИИ ВЫХОДА!!!!!!!!!!!!!!!!!!!!!!!");
             logOut();
         });
 
@@ -401,43 +412,43 @@ public class Window extends JFrame {
 
         addContactForm.addActionListenerForBackButton((ActionEvent e) -> {
             windowManager.setIndex(MAIN_WINDOW);
+            addContactForm.clearFields();
         });
 
         addContactForm.addActionListenerForSaveButton((ActionEvent e)-> {
                 tryAddContact(addContactForm.getContactInfo());
         });
-
-
-
-
+        mainForm.revalidate();
+        mainForm.repaint();
     }
 
     private boolean tryAddContact(ContactInfo info) {
 
         String phone = info.getClearedPhone() ;
         if(phone.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Пожалуйста, введите номер телефона");
+            showWarningMessage("Пожалуйста, введите номер телефона","Внимание!");
             return false;
         }
         if(info.getFirstName().isEmpty() && info.getLastName().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Пожалуйста, введите имя и/или фамилию");
+            showWarningMessage("Пожалуйста, введите имя и/или фамилию","Внимание!");
             return false;
         }
         for(Person person : telegramProxy.getPersons()) {
             if(person instanceof Contact) {
                 if(((Contact) person).getPhoneNumber().replaceAll("\\D+", "").equals(phone)) {
-                    JOptionPane.showMessageDialog(this, "Контакт с таким номером уже существует");
+                    showWarningMessage("Контакт с таким номером уже существует","Внимание!");
                     return false;
                 }
             }
         }
 
         if(!telegramProxy.importContact(info.getPhone(), info.getFirstName(), info.getLastName())) {
-            JOptionPane.showMessageDialog(this, "Ошибка на сервере при добавлении контакта");
+            showErrorMessage("Ошибка на сервере при добавлении контакта","Ошибка!");
             return  false;
         }
 
         windowManager.setIndex(MAIN_WINDOW);
+        addContactForm.clearFields();
         checkForUpdates(true);
         return true;
     }
@@ -446,12 +457,12 @@ public class Window extends JFrame {
         String phone = info.getClearedPhone() ;
 
         if(info.getFirstName().isEmpty() && info.getLastName().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Пожалуйста, введите имя и/или фамилию");
+            showWarningMessage("Пожалуйста, введите имя и/или фамилию","Внимание!");
             return false;
         }
 
         if(!telegramProxy.importContact(info.getPhone(), info.getFirstName(), info.getLastName())) {
-            JOptionPane.showMessageDialog(this, "Ошибка на сервере при изменении контакта");
+            showErrorMessage("Ошибка на сервере при изменении контакта","Ошибка!");
             return  false;
         }
 
@@ -464,7 +475,7 @@ public class Window extends JFrame {
         int id = info.getId();
 
         if(!telegramProxy.deleteContact(id)) {
-            JOptionPane.showMessageDialog(this, "Ошибка на сервере при удалении контакта");
+            showErrorMessage("Ошибка на сервере при удалении контакта","Ошибка!");
             return  false;
         }
 
@@ -479,12 +490,12 @@ public class Window extends JFrame {
             codeForm.clearCodeField();
             phoneForm.clearTelNumber();
             windowManager.setIndex(MAIN_WINDOW);
-            setContentPane(phoneForm);
+            headForm.setContentPanel(phoneForm.getRootPanel());
             if (!telegramDAO.logOut()) {
                 throw new RuntimeException("Отказ сервера разорвать соединение");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ошибка выхода!");
+            showErrorMessage( "Ошибка выхода!","Ошибка!");
             abort(e);
         }
 
@@ -500,15 +511,10 @@ public class Window extends JFrame {
 
     private void closeWindow() {
         if (telegramDAO.isLoggedIn()) {
-            int result = JOptionPane.showOptionDialog(Window.this,
+            boolean result = showQuestionMessage(
                     "Вы действительно хотите выйти?",
-                    "Выход",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    new Object[]{"Да","Нет"},
-                    "Да");
-            if(result == JOptionPane.YES_OPTION) {
+                    "Выход");
+            if(result) {
                 try {
                     exit();
                 } catch (Exception exc) {
@@ -525,7 +531,7 @@ public class Window extends JFrame {
     }
 
     private void exit() {
-        //telegramDAO.close();
+        telegramDAO.close();
         System.exit(0);
     }
 
@@ -535,7 +541,63 @@ public class Window extends JFrame {
 
     }
 
+    private JButton[] okButton = BlueButton.createDecoratedButtons(JOptionPane.DEFAULT_OPTION);
+    private JButton[] yesNoButtons = BlueButton.createDecoratedButtons(JOptionPane.YES_NO_OPTION);
 
+    private void showErrorMessage(String text, String title) {
+        Undecorated.showDialog(this, text, title, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, Images.getIconError(),
+                okButton, okButton[0]);
+    }
 
+    private void showWarningMessage(String text, String title) {
+        Undecorated.showDialog(this, text, title, JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, Images.getIconWaringn(),
+                okButton, okButton[0]);
+    }
+
+    private void showInformationMessage(String text, String title) {
+        Undecorated.showDialog(this, text, title, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, Images.getIconInfo(),
+                okButton, okButton[0]);
+    }
+
+    private boolean showQuestionMessage(String text, String title) {
+        return Undecorated.showDialog(this, text, title, JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, Images.getIconQuestion(),
+                yesNoButtons, yesNoButtons[0]) == 0;
+    }
+
+    private void searchFor(String text) {
+        text = text.trim();
+        if(text.isEmpty()) {
+            return;
+        }
+        String[] words = text.toLowerCase().split("\\s+");
+        java.util.List<Person> persons = telegramProxy.getPersons();
+        Person person = contactsList.getSelectedValue();
+        person = searchFor(text.toLowerCase(), words, persons, person);
+        contactsList.setSelectedValue(person);
+        if(person == null)
+            showInformationMessage("Ничего не найдено", "Поиск");
+    }
+
+    private static Person searchFor(String text, String[] words, java.util.List<? extends Person> persons, Person current) {
+        int currentIndex = persons.indexOf(current);
+
+        for(int i = 1; i <= persons.size(); i++) {
+            int index = (currentIndex + i) % persons.size();
+            Person person = persons.get(index);
+            if(contains(person.getFirstName().toLowerCase(), words)
+                    || contains(person.getLastName().toLowerCase(), words)) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    private static boolean contains(String text, String... words) {
+        for(String word : words) {
+            if(text.contains(word))
+                return true;
+        }
+        return false;
+    }
 
 }

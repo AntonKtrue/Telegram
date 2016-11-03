@@ -55,6 +55,12 @@ public class AddContactForm extends OverlayBackground {
 
     }
 
+    public void clearFields() {
+        phoneField.setText("");
+        firstNameField.setText("");
+        lastNameField.setText("");
+    }
+
     public void addActionListenerForBackButton(ActionListener listener) {
         backButton.addActionListener(listener);
     }

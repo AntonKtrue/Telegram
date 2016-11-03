@@ -77,7 +77,7 @@ public class HintTextField extends JTextField {
         if(getHintFont() != null)
             return getHintFont();
         else
-            return getFont().deriveFont(getFont().getStyle() ^ Font.ITALIC);
+            return getFont().deriveFont(getFont().getStyle());
     }
 
     protected Color createHintForeground() {
@@ -134,15 +134,22 @@ public class HintTextField extends JTextField {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D graphics2D = (Graphics2D) g;
+        //Set  anti-alias!
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        // Set anti-alias for text
+        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         if(isEmpty(getText()) && !(isFocusOwner() && hideOnFocus)) {
             Insets insets = getInsets();
             Insets margins = getMargin();
             int left = insets.left + margins.left;
             int right = insets.right + margins.right;
             int maxWidth = getWidth() - (left + right);
-            g.setFont(createHintFont());
-            g.setColor(createHintForeground());
-            FontMetrics fontMetrics = g.getFontMetrics();
+            graphics2D.setFont(createHintFont());
+            graphics2D.setColor(createHintForeground());
+            FontMetrics fontMetrics = graphics2D.getFontMetrics();
             String hint = this.hint;
             while(fontMetrics.stringWidth(hint) > maxWidth) {
                 int len = hint.length() - 4;
@@ -159,7 +166,7 @@ public class HintTextField extends JTextField {
                 x += (maxWidth - fontMetrics.stringWidth(hint)) / 2;
             }
             int y = getBaseline(getWidth(), getHeight());
-            g.drawString(hint, x, y);
+            graphics2D.drawString(hint, x, y);
         }
     }
 }

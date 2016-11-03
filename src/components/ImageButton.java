@@ -9,9 +9,9 @@ import java.awt.image.BufferedImage;
  */
 public class ImageButton extends JButton {
 
-    private BufferedImage image;
+    private Image image;
     private boolean keepRatio;
-    private BufferedImage disabledImage;
+    private Image disabledImage;
     private boolean keepDisabledRatio;
 
     {
@@ -29,7 +29,14 @@ public class ImageButton extends JButton {
         this.keepDisabledRatio = keepDisabledRatio;
     }
 
-    public BufferedImage getImage() {
+    public ImageButton(Image image, boolean keepRatio, Image disabledImage, boolean keepDisabledRatio) {
+        this.image = image;
+        this.keepRatio = keepRatio;
+        this.disabledImage = image == null ? null : disabledImage;
+        this.keepDisabledRatio = keepDisabledRatio;
+    }
+
+    public Image getImage() {
         return image;
     }
 

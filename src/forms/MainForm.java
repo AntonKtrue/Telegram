@@ -33,6 +33,8 @@ public class MainForm extends JPanel {
     private JScrollPane messageTextScrollPane;
     private JTextArea messageTextArea;
     private JPanel contactsPanel;
+    private JButton searchButton;
+    private JTextField searchField;
     private JPanel titlePanel;
 
     private BufferedImage buddyPhoto;
@@ -81,7 +83,8 @@ public class MainForm extends JPanel {
     }
 
     public void setMyContact(Person me) {
-        myName = me.getFirstName() + " " + me.getLastName();
+        myName = me != null ? me.getFirstName() + " " + me.getLastName() : "";
+
     }
 
     public void setMyPhoto(BufferedImage myPhoto) {
@@ -89,23 +92,27 @@ public class MainForm extends JPanel {
     }
 
     public void setBuddyContact(Person person) {
-        if(person != null) {
-            btGear.setEnabled(true);
-            buddyName = person.getFirstName() + " " + person.getLastName();
-        } else {
-            btGear.setEnabled(false);
-        }
-
+        buddyName = person != null ? person.getFirstName() + " " + person.getLastName() : "";
     }
 
     public void setBuddyPhoto(BufferedImage image) {
         this.buddyPhoto = image;
     }
 
+    public void addSearchEventListener(ActionListener listener) {
+        this.searchButton.addActionListener(listener);
+    }
+
+    public String getSearchText() {
+        return this.searchField.getText();
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
         rootPanel = this;
         btGear = new ImageButton(Images.getGearIcon());
+        searchButton = new ImageButton(Images.getIconSearch());
+        searchField = new HintTextFieldUnderlined("", "Поиск...", false, false);
         buddyEditButton = new ImageButton(Images.getIconEdit());
         logoMicro = new ImagePanel(Images.getLogoMicro(), false, true, 0);
         topMenu = new JPanel() {

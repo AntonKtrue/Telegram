@@ -22,6 +22,8 @@ public class EditContactorm extends OverlayBackground {
     private JButton saveButton;
     private BufferedImage buddyPhoto;
     private int id;
+
+
     {
         namePanel.setOpaque(false);
         contactNameField.setBorder(null);
@@ -53,21 +55,32 @@ public class EditContactorm extends OverlayBackground {
     private void createUIComponents() {
         // TODO: place custom component creation code here
         rootPanel = this;
+       // contactNameField = new JTextField();
         contactPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics graphics) {
                 super.paintComponent(graphics);
+                double nameFieldLeftInset = contactNameField.getX();
+                int photoSize = (int) (nameFieldLeftInset * .8);
+                int photoOffsetX = (int) (nameFieldLeftInset * .2);
+                int photoOffsetY = 0;
+
+                int lineStartX = 0;
+                int lineWidth = namePanel.getWidth();
+                int lineStartY = contactNameField.getY() + contactNameField.getHeight();
+                int lineHeight = 1;
 
                 if (buddyPhoto != null) {
                     BufferedImage image = buddyPhoto;
-                    GuiHelper.drawLine(graphics, Color.white, 0, 40, 350, 1);
-                    GuiHelper.drawImage(graphics, image, 20, 0, 90, 90);
+
+                    GuiHelper.drawLine(graphics, Color.white, lineStartX, lineStartY, lineWidth, lineHeight);
+                    GuiHelper.drawImage(graphics, image, photoOffsetX, photoOffsetY, photoSize, photoSize);
                 }
             }
         };
         namePanel = new JPanel();
         deleteContact = new JButton();
-        contactNameField = new JTextField();
+
         backButton = new ImageButton(Images.getBackIcon());
         saveButton = new AntiAliasedImageButton(Images.getButtonBackground());
 
